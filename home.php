@@ -45,7 +45,7 @@
             <i class="bi bi-people-fill"></i>
         </div>
 
-        <div class="page-title">p
+        <div class="page-title">
 
             <h2>Selamat Datang</h2>
 
