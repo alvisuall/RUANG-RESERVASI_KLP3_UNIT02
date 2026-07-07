@@ -48,9 +48,9 @@
 
         <div class="page-title">
 
-            <h2>Selamat Datang</h2>
+            <h2>Data Pengguna</h2>
 
-            <p>Kelola reservasi ruangan kampus dengan mudah dan cepat</p>
+            <p>Kelola data pemesan ruangan kampus</p>
 
             <div class="title-line"></div>
 
