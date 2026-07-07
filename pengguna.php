@@ -36,7 +36,7 @@
 
     <main class="main-content">
 
-        <div class="topbar">
+       <div class="topbar">
             <div class="circle circle1"></div>
 <div class="circle circle2"></div>
 
@@ -48,9 +48,9 @@
 
         <div class="page-title">
 
-            <h2>Data Pengguna</h2>
+            <h2>Selamat Datang</h2>
 
-            <p>Kelola data pemesan ruangan kampus</p>
+            <p>Kelola reservasi ruangan kampus dengan mudah dan cepat</p>
 
             <div class="title-line"></div>
 
