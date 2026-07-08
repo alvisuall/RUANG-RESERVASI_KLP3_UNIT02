@@ -40,7 +40,7 @@
 
         <!-- Form Login -->
 
-        <form action="home.html">
+        <form action="login.php" method="POST">
 
             <!-- Username -->
 
