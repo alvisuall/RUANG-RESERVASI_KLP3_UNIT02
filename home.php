@@ -35,7 +35,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
             <li><a href="reservasi.php"><i class="bi bi-calendar-plus"></i> Reservasi</a></li>
             <li><a href="jadwal.php"><i class="bi bi-calendar-week"></i> Jadwal Pemakaian</a></li>
             <li><a href="pengguna.php"><i class="bi bi-people"></i> Pengguna</a></li>
-            <li><a href="#"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
+            <li><a href="logout.php"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
         </ul>
     </aside>
 
