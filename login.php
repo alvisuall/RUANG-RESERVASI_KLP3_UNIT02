@@ -23,7 +23,7 @@ $sql = "SELECT * FROM user_login
         AND status_akun = 'aktif'";
 
 // Membuat prepared statement agar aman dari SQL Injection
-$stmt = mysqli_prepare($conn, $sql);
+$stmt = mysqli_prepare($koneksi, $sql);
 
 // Memasukkan username ke query
 mysqli_stmt_bind_param($stmt, "s", $username);
@@ -55,10 +55,6 @@ if (mysqli_num_rows($result) == 1) {
             header("Location: home.php");
 
         } elseif ($data['role'] == "petugas") {
-
-            header("Location:home.php");
-
-            header("Location: home.php");
 
             header("Location:home.php");
 
