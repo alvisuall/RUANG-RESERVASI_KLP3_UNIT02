@@ -51,20 +51,20 @@ if(mysqli_num_rows($result) == 1){
         // Mengarahkan user ke dashboard sesuai role
         if($data['role']=="admin"){
 
-            header("Location: admin/dashboard.php");
+            header("Location: home.php");
 
         }
 
         elseif($data['role']=="petugas"){
 
-            header("Location: petugas/dashboard.php");
+            header("Location: home.php");
 
         }
 
         else{
 
             // Role pengguna (mahasiswa/user)
-            header("Location: pengguna/dashboard.php");
+            header("Location: home.php");
 
         }
 

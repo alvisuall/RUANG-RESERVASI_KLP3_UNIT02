@@ -1,3 +1,8 @@
+<?php
+include 'koneksi.php';
+
+$data = mysqli_query($koneksi, "SELECT * FROM pengguna");
+?>
 <!DOCTYPE php>
 <php lang="id">
 <head>

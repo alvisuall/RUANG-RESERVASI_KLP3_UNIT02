@@ -1,3 +1,8 @@
+<?php
+include 'koneksi.php';
+
+$data = mysqli_query($koneksi, "SELECT * FROM pengguna");
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -210,33 +215,7 @@
 
 </div>
 
-<script>
-
-function lihatPassword(){
-
-    const password=document.getElementById("password");
-
-    const icon=document.getElementById("iconPassword");
-
-    if(password.type==="password"){
-
-        password.type="text";
-
-        icon.className="bi bi-eye-slash";
-
-    }else{
-
-        password.type="password";
-
-        icon.className="bi bi-eye";
-
-    }
-
-}
-
-</script>
-
-        
+<script src="js/script.js"></script>
 </body>
 </html>
 
