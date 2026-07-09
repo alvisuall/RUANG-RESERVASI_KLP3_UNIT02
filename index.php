@@ -63,9 +63,10 @@
                     <input
                         type="text"
                         class="form-control"
+                        id="username"
+                        name="username"
                         placeholder="Masukkan Username atau Email"
                         required>
-
                 </div>
 
             </div>
@@ -92,6 +93,7 @@
                         type="password"
                         class="form-control"
                         id="password"
+                        name="password"
                         placeholder="Masukkan Password"
                         required>
 
@@ -140,14 +142,13 @@
             <!-- Tombol Login -->
 
             <button
+                type="submit"
                 class="btn btn-primary w-100 py-2">
 
                 <i class="bi bi-box-arrow-in-right me-2"></i>
 
                 Login
-
             </button>
-
         </form>
 
         <!-- Garis -->

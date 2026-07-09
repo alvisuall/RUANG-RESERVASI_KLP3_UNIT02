@@ -3,11 +3,12 @@
 $host = "localhost";
 $user = "root";
 $pass = "";
-$db   = "db_reservasi_ruangan_kampus.sql";
+$db   = "db_reservasi_ruang_kampus";
 
 $conn = mysqli_connect($host, $user, $pass, $db);
 
 if (!$conn) {
-    die("Koneksi gagal!");
+    die("Koneksi gagal: " . mysqli_connect_error());
 }
+
 ?>
