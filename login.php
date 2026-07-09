@@ -1,28 +1,31 @@
 <?php
 
-// Memulai session agar data login bisa disimpan
+// Memulai session
+// Session digunakan untuk menyimpan data pengguna setelah berhasil login
 session_start();
 
-// Menghubungkan file ini dengan koneksi database
+// Menghubungkan ke database
 include "koneksi.php";
 
-// Mengambil data username dan password dari form login
-// trim() digunakan untuk menghapus spasi di awal dan akhir username
+// Memastikan file hanya bisa diakses melalui tombol Login (POST)
+if ($_SERVER["REQUEST_METHOD"] != "POST") {
+    header("Location: index.php");
+    exit();
+}
+
+// Mengambil data dari form login
 $username = trim($_POST['username']);
 $password = $_POST['password'];
 
-// Query untuk mencari username yang dimasukkan pengguna
-// Sekaligus memastikan akun masih aktif
+// Mencari user berdasarkan username yang aktif
 $sql = "SELECT * FROM user_login
         WHERE username = ?
         AND status_akun = 'aktif'";
 
-// Membuat prepared statement
-// Cara ini lebih aman karena mencegah SQL Injection
+// Membuat prepared statement agar aman dari SQL Injection
 $stmt = mysqli_prepare($conn, $sql);
 
-// Mengisi tanda tanya (?) pada query dengan nilai username
-// "s" berarti tipe datanya String
+// Memasukkan username ke query
 mysqli_stmt_bind_param($stmt, "s", $username);
 
 // Menjalankan query
@@ -32,58 +35,58 @@ mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
 // Mengecek apakah username ditemukan
-if(mysqli_num_rows($result) == 1){
+if (mysqli_num_rows($result) == 1) {
 
-    // Mengambil data user menjadi array
+    // Mengambil data user
     $data = mysqli_fetch_assoc($result);
 
-    // Mengecek apakah password yang dimasukkan sesuai
-    // dengan password hash yang ada di database
-    if(password_verify($password, $data['password_hash'])){
+    // Mengecek password
+    if (password_verify($password, $data['password_hash'])) {
 
-        // Menyimpan data user ke dalam session
-        // Session digunakan agar user tetap dianggap login
+        // Menyimpan data user ke session
         $_SESSION['id_user'] = $data['id_user'];
         $_SESSION['nama'] = $data['nama_lengkap'];
         $_SESSION['username'] = $data['username'];
         $_SESSION['role'] = $data['role'];
 
-        // Mengarahkan user ke dashboard sesuai role
-        if($data['role']=="admin"){
+        // Mengarahkan user sesuai role
+        if ($data['role'] == "admin") {
 
             header("Location: home.php");
 
-        }
+        } elseif ($data['role'] == "petugas") {
 
-        elseif($data['role']=="petugas"){
+            header("Location:home.php");
 
             header("Location: home.php");
 
-        }
+            header("Location:home.php");
 
-        else{
+        } else {
 
             // Role pengguna (mahasiswa/user)
             header("Location: home.php");
 
         }
 
-        // Menghentikan proses setelah redirect
         exit();
 
-    }else{
+    } else {
 
-        // Password tidak cocok
+        // Password salah
         echo "Password salah.";
 
     }
 
-}else{
+} else {
 
-    // Username tidak ditemukan
-    // atau akun tidak aktif
+    // Username tidak ditemukan atau akun tidak aktif
     echo "Username tidak ditemukan atau akun tidak aktif.";
 
 }
+
+// Menutup statement dan koneksi
+mysqli_stmt_close($stmt);
+mysqli_close($conn);
 
 ?>
