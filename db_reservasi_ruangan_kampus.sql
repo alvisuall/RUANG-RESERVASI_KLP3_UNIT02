@@ -51,7 +51,6 @@ INSERT INTO `pengguna` (`id_pengguna`, `nama_lengkap`, `nim_nip`, `jenis_penggun
 
 -- --------------------------------------------------------
 
---
 -- Table structure for table `reservasi_ruangan`
 --
 

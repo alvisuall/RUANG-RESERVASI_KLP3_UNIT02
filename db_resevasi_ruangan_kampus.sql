@@ -47,8 +47,10 @@ CREATE TABLE `pengguna` (
 INSERT INTO `pengguna` (`id_pengguna`, `nama_lengkap`, `nim_nip`, `jenis_pengguna`, `fakultas_unit`, `prodi_bagian`, `email`, `no_hp`, `alamat`, `created_at`) VALUES
 (1, 'Ridwan Maulana', '20260001', 'mahasiswa', 'Fakultas Tarbiyah dan Keguruan', 'Pendidikan Teknologi Informasi', 'ridwan@student.ac.id', '081234567890', NULL, '2026-07-01 02:03:38'),
 (2, 'Dr. Ahmad Zaini', '198701012020121001', 'dosen', 'Fakultas Sains dan Teknologi', 'Informatika', 'ahmad@kampus.ac.id', '082233445566', NULL, '2026-07-01 02:03:38'),
-(3, 'HMPS PTI', 'ORG001', 'organisasi', 'Fakultas Tarbiyah dan Keguruan', 'Organisasi Mahasiswa', 'hmpspti@kampus.ac.id', '085277889900', NULL, '2026-07-01 02:03:38');
-
+(3, 'HMPS PTI', 'ORG001', 'organisasi', 'Fakultas Tarbiyah dan Keguruan', 'Organisasi Mahasiswa', 'hmpspti@kampus.ac.id', '085277889900', NULL, '2026-07-01 02:03:38'),
+(4, 'Ara Mita', '20260002', 'mahasiswa', 'Fakultas Tarbiyah dan Keguruan', 'Pendidikan Teknologi Informasi', 'aramita@student.ac.id', '081234567891', NULL, '2026-07-01 02:03:38'),
+(5, 'Muhammad Rizki', '20260003', 'mahasiswa', 'Fakultas Tarbiyah dan Keguruan', 'Pendidikan Teknologi Informasi', 'rizki@student.ac.id', '081234567892', NULL, '2026-07-01 02:03:38'),
+(6, 'Siti Rahma', '20260004', 'mahasiswa', 'Fakultas Tarbiyah dan Keguruan', 'Pendidikan Teknologi Informasi', 'siti@student.ac.id', '081234567893', NULL, '2026-07-01 02:03:38');
 -- --------------------------------------------------------
 
 --
