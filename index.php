@@ -1,3 +1,8 @@
+<?php
+include 'koneksi.php';
+
+$data = mysqli_query($koneksi, "SELECT * FROM pengguna");
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -63,9 +68,10 @@
                     <input
                         type="text"
                         class="form-control"
+                        id="username"
+                        name="username"
                         placeholder="Masukkan Username atau Email"
                         required>
-
                 </div>
 
             </div>
@@ -92,6 +98,7 @@
                         type="password"
                         class="form-control"
                         id="password"
+                        name="password"
                         placeholder="Masukkan Password"
                         required>
 
@@ -140,14 +147,13 @@
             <!-- Tombol Login -->
 
             <button
+                type="submit"
                 class="btn btn-primary w-100 py-2">
 
                 <i class="bi bi-box-arrow-in-right me-2"></i>
 
                 Login
-
             </button>
-
         </form>
 
         <!-- Garis -->
@@ -210,33 +216,7 @@
 
 </div>
 
-<script>
-
-function lihatPassword(){
-
-    const password=document.getElementById("password");
-
-    const icon=document.getElementById("iconPassword");
-
-    if(password.type==="password"){
-
-        password.type="text";
-
-        icon.className="bi bi-eye-slash";
-
-    }else{
-
-        password.type="password";
-
-        icon.className="bi bi-eye";
-
-    }
-
-}
-
-</script>
-
-        
+<script src="js/script.js"></script>
 </body>
 </html>
 

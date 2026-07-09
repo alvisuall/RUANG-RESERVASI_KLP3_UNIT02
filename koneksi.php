@@ -1,13 +1,11 @@
 <?php
-
 $host = "localhost";
-$user = "root";
-$pass = "";
-$db   = "db_reservasi_ruangan_kampus.sql";
+$username = "root";
+$password = "";
+$database = "db_reservasi_ruangan_kampus";
 
-$conn = mysqli_connect($host, $user, $pass, $db);
+$koneksi = mysqli_connect($host, $username, $password, $database);
 
-if (!$conn) {
-    die("Koneksi gagal!");
+if (!$koneksi) {
+    die("Koneksi gagal: " . mysqli_connect_error());
 }
-?>

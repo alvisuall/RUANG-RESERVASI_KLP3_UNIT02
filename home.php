@@ -1,3 +1,8 @@
+<?php
+include 'koneksi.php';
+
+$data = mysqli_query($koneksi, "SELECT * FROM pengguna");
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -171,45 +176,63 @@
             </div>
 
             <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Kode</th>
-                            <th>Pemesan</th>
-                            <th>Ruangan</th>
-                            <th>Tanggal</th>
-                            <th>Jam</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>RSV-2026-001</td>
-                            <td>Ridwan Maulana</td>
-                            <td>Ruang Kuliah A101</td>
-                            <td>05 Juli 2026</td>
-                            <td>08:00 - 10:00</td>
-                            <td><span class="badge-status badge-disetujui">Disetujui</span></td>
-                        </tr>
-                        <tr>
-                            <td>RSV-2026-002</td>
-                            <td>Dr. Ahmad Zaini</td>
-                            <td>Laboratorium Komputer PTI</td>
-                            <td>06 Juli 2026</td>
-                            <td>09:00 - 12:00</td>
-                            <td><span class="badge-status badge-menunggu">Menunggu</span></td>
-                        </tr>
-                        <tr>
-                            <td>RSV-2026-003</td>
-                            <td>HMPS PTI</td>
-                            <td>Aula Utama Kampus</td>
-                            <td>10 Juli 2026</td>
-                            <td>13:00 - 16:00</td>
-                            <td><span class="badge-status badge-disetujui">Disetujui</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+    <table class="table table-bordered table-hover align-middle text-center shadow rounded overflow-hidden">
+
+        <thead class="table-primary">
+            <tr>
+                <th>Kode</th>
+                <th>Pemesan</th>
+                <th>Ruangan</th>
+                <th>Tanggal</th>
+                <th>Jam</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr class="table-light">
+                <td>RSV-2026-001</td>
+                <td>Ridwan Maulana</td>
+                <td>Ruang Kuliah A101</td>
+                <td>05 Juli 2026</td>
+                <td>08:00 - 10:00</td>
+                <td>
+                    <span class="badge bg-success rounded-pill">
+                        Disetujui
+                    </span>
+                </td>
+            </tr>
+
+            <tr class="table-info">
+                <td>RSV-2026-002</td>
+                <td>Dr. Ahmad Zaini</td>
+                <td>Laboratorium Komputer PTI</td>
+                <td>06 Juli 2026</td>
+                <td>09:00 - 12:00</td>
+                <td>
+                    <span class="badge bg-warning text-dark rounded-pill">
+                        Menunggu
+                    </span>
+                </td>
+            </tr>
+
+            <tr class="table-light">
+                <td>RSV-2026-003</td>
+                <td>HMPS PTI</td>
+                <td>Aula Utama Kampus</td>
+                <td>10 Juli 2026</td>
+                <td>13:00 - 16:00</td>
+                <td>
+                    <span class="badge bg-danger rounded-pill">
+                        Ditolak
+                    </span>
+                </td>
+            </tr>
+
+        </tbody>
+
+    </table>
+</div>
         </div>
 
     </main>
