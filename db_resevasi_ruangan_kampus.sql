@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 01, 2026 at 05:27 AM
+-- Generation Time: Jul 08, 2026 at 10:55 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `db_reservasi_ruangan_kampus`
+-- Database: `db_resevasi_ruangan_kampus`
 --
 
 -- --------------------------------------------------------
@@ -47,10 +47,13 @@ CREATE TABLE `pengguna` (
 INSERT INTO `pengguna` (`id_pengguna`, `nama_lengkap`, `nim_nip`, `jenis_pengguna`, `fakultas_unit`, `prodi_bagian`, `email`, `no_hp`, `alamat`, `created_at`) VALUES
 (1, 'Ridwan Maulana', '20260001', 'mahasiswa', 'Fakultas Tarbiyah dan Keguruan', 'Pendidikan Teknologi Informasi', 'ridwan@student.ac.id', '081234567890', NULL, '2026-07-01 02:03:38'),
 (2, 'Dr. Ahmad Zaini', '198701012020121001', 'dosen', 'Fakultas Sains dan Teknologi', 'Informatika', 'ahmad@kampus.ac.id', '082233445566', NULL, '2026-07-01 02:03:38'),
-(3, 'HMPS PTI', 'ORG001', 'organisasi', 'Fakultas Tarbiyah dan Keguruan', 'Organisasi Mahasiswa', 'hmpspti@kampus.ac.id', '085277889900', NULL, '2026-07-01 02:03:38');
-
+(3, 'HMPS PTI', 'ORG001', 'organisasi', 'Fakultas Tarbiyah dan Keguruan', 'Organisasi Mahasiswa', 'hmpspti@kampus.ac.id', '085277889900', NULL, '2026-07-01 02:03:38'),
+(4, 'Ara Mita', '20260002', 'mahasiswa', 'Fakultas Tarbiyah dan Keguruan', 'Pendidikan Teknologi Informasi', 'aramita@student.ac.id', '081234567891', NULL, '2026-07-01 02:03:38'),
+(5, 'Muhammad Rizki', '20260003', 'mahasiswa', 'Fakultas Tarbiyah dan Keguruan', 'Pendidikan Teknologi Informasi', 'rizki@student.ac.id', '081234567892', NULL, '2026-07-01 02:03:38'),
+(6, 'Siti Rahma', '20260004', 'mahasiswa', 'Fakultas Tarbiyah dan Keguruan', 'Pendidikan Teknologi Informasi', 'siti@student.ac.id', '081234567893', NULL, '2026-07-01 02:03:38');
 -- --------------------------------------------------------
 
+--
 -- Table structure for table `reservasi_ruangan`
 --
 
@@ -71,7 +74,7 @@ CREATE TABLE `reservasi_ruangan` (
   `status_reservasi` enum('menunggu','disetujui','ditolak','selesai','dibatalkan') DEFAULT 'menunggu',
   `catatan_admin` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `reservasi_ruangan`
@@ -98,7 +101,7 @@ CREATE TABLE `ruangan` (
   `fasilitas` text DEFAULT NULL,
   `status_ruangan` enum('tersedia','perawatan','tidak_aktif') DEFAULT 'tersedia',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `ruangan`
@@ -189,13 +192,13 @@ ALTER TABLE `pengguna`
 -- AUTO_INCREMENT for table `reservasi_ruangan`
 --
 ALTER TABLE `reservasi_ruangan`
-  MODIFY `id_reservasi` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_reservasi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `ruangan`
 --
 ALTER TABLE `ruangan`
-  MODIFY `id_ruangan` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_ruangan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `user_login`
