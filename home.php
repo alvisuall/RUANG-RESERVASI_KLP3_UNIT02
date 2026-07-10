@@ -2,7 +2,36 @@
 include 'koneksi.php';
 
 $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
+
+$queryRuangan = mysqli_query($koneksi, "SELECT COUNT(*) AS total FROM ruangan");
+$dataRuangan = mysqli_fetch_assoc($queryRuangan);
+
+$query = mysqli_query($koneksi, "
+    SELECT COUNT(*) AS total
+    FROM reservasi_ruangan
+    WHERE tanggal_reservasi = CURDATE()
+");
+
+$reservasiHariIni = mysqli_fetch_assoc($query);
+
+$query = mysqli_query($koneksi, "
+    SELECT COUNT(*) AS total
+    FROM reservasi_ruangan
+    WHERE status_reservasi = 'Menunggu'
+");
+
+$menunggu = mysqli_fetch_assoc($query);
+
+$query = mysqli_query($koneksi, "
+    SELECT COUNT(*) AS total
+    FROM reservasi_ruangan
+    WHERE status_reservasi = 'Ditolak'
+");
+
+$ditolak = mysqli_fetch_assoc($query);
+
 ?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -115,7 +144,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
                     <div class="d-flex justify-content-between">
                         <div>
                             <p class="text-muted mb-1">Total Ruangan</p>
-                            <h3 class="fw-bold mb-0">24</h3>
+                            <h3 class="fw-bold mb-0"><?php echo $dataRuangan['total']; ?></h3>
                         </div>
                         <div class="stat-icon bg-soft-primary">
                             <i class="bi bi-door-open"></i>
@@ -129,7 +158,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
                     <div class="d-flex justify-content-between">
                         <div>
                             <p class="text-muted mb-1">Reservasi Hari Ini</p>
-                            <h3 class="fw-bold mb-0">8</h3>
+                            <h3 class="fw-bold mb-0"><?php echo $reservasiHariIni['total']; ?></h3>
                         </div>
                         <div class="stat-icon bg-soft-success">
                             <i class="bi bi-calendar-check"></i>
@@ -143,7 +172,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
                     <div class="d-flex justify-content-between">
                         <div>
                             <p class="text-muted mb-1">Menunggu</p>
-                            <h3 class="fw-bold mb-0">5</h3>
+                            <h3 class="fw-bold mb-0"><?php echo $menunggu['total']; ?></h3>
                         </div>
                         <div class="stat-icon bg-soft-warning">
                             <i class="bi bi-hourglass-split"></i>
@@ -157,7 +186,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
                     <div class="d-flex justify-content-between">
                         <div>
                             <p class="text-muted mb-1">Ditolak</p>
-                            <h3 class="fw-bold mb-0">2</h3>
+                            <h3 class="fw-bold mb-0"><?php echo $ditolak['total']; ?></h3>
                         </div>
                         <div class="stat-icon bg-soft-danger">
                             <i class="bi bi-x-circle"></i>
