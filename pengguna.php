@@ -84,21 +84,21 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
         <div class="content-card">
             <h5 class="section-title">Form Data Pengguna</h5>
 
-            <form action="#" method="post">
+            <form id="formPengguna">
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Nama Lengkap</label>
-                        <input type="text" class="form-control" placeholder="Masukkan nama lengkap" required>
+                       <input type="text"id="nama"class="form-control"placeholder="Masukkan nama lengkap">
                     </div>
 
                     <div class="col-md-3">
                         <label class="form-label fw-semibold">NIM atau NIP</label>
-                        <input type="text" class="form-control" placeholder="NIM atau NIP">
+                        <input type="text"id="nim"name="nim"class="form-control"placeholder="NIM atau NIP">
                     </div>
 
                     <div class="col-md-3">
                         <label class="form-label fw-semibold">Jenis Pengguna</label>
-                        <select class="form-select" required>
+                        <select id="jenis"name="jenis"class="form-select">
                             <option value="">Pilih jenis</option>
                             <option value="mahasiswa">Mahasiswa</option>
                             <option value="dosen">Dosen</option>
@@ -110,27 +110,27 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Fakultas atau Unit</label>
-                        <input type="text" class="form-control" placeholder="Contoh: Fakultas Tarbiyah dan Keguruan">
+                        <input type="text"id="fakultas"name="fakultas"class="form-control">
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Prodi atau Bagian</label>
-                        <input type="text" class="form-control" placeholder="Contoh: Pendidikan Teknologi Informasi">
+                        <input type="text"id="prodi"name="prodi"class="form-control">
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Email</label>
-                        <input type="email" class="form-control" placeholder="nama@email.com">
+                        <input type="email"id="email"name="email"class="form-control">
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">No. HP</label>
-                        <input type="tel" class="form-control" placeholder="08xxxxxxxxxx">
+                       <input type="tel"id="hp"name="hp"class="form-control">
                     </div>
 
                     <div class="col-12">
                         <label class="form-label fw-semibold">Alamat</label>
-                        <textarea class="form-control" rows="3" placeholder="Masukkan alamat pengguna"></textarea>
+                        <textarea id="alamat"name="alamat"class="form-control"rows="3"></textarea>
                     </div>
 
                     <div class="col-12">
@@ -214,6 +214,6 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 
     </main>
 </div>
-
+<script src="js/script.js"></script>
 </body>
 </html>

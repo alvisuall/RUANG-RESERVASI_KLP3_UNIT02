@@ -215,11 +215,6 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
     </div>
 
 </div>
-
 <script src="js/script.js"></script>
 </body>
 </html>
-
-
-
-

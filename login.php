@@ -83,6 +83,6 @@ if (mysqli_num_rows($result) == 1) {
 
 // Menutup statement dan koneksi
 mysqli_stmt_close($stmt);
-mysqli_close($conn);
+mysqli_close($koneksi);
 
 ?>

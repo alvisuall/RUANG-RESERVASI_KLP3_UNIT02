@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 01, 2026 at 05:27 AM
+-- Generation Time: Jul 10, 2026 at 11:40 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -51,6 +51,7 @@ INSERT INTO `pengguna` (`id_pengguna`, `nama_lengkap`, `nim_nip`, `jenis_penggun
 
 -- --------------------------------------------------------
 
+--
 -- Table structure for table `reservasi_ruangan`
 --
 
@@ -71,7 +72,7 @@ CREATE TABLE `reservasi_ruangan` (
   `status_reservasi` enum('menunggu','disetujui','ditolak','selesai','dibatalkan') DEFAULT 'menunggu',
   `catatan_admin` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `reservasi_ruangan`
@@ -98,7 +99,7 @@ CREATE TABLE `ruangan` (
   `fasilitas` text DEFAULT NULL,
   `status_ruangan` enum('tersedia','perawatan','tidak_aktif') DEFAULT 'tersedia',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `ruangan`
@@ -132,9 +133,9 @@ CREATE TABLE `user_login` (
 --
 
 INSERT INTO `user_login` (`id_user`, `nama_lengkap`, `username`, `email`, `password_hash`, `role`, `status_akun`, `created_at`) VALUES
-(1, 'Administrator Kampus', 'admin', 'admin@kampus.ac.id', 'password_hash_admin', 'admin', 'aktif', '2026-07-01 02:03:38'),
-(2, 'Petugas Sarpras', 'petugas', 'sarpras@kampus.ac.id', 'password_hash_petugas', 'petugas', 'aktif', '2026-07-01 02:03:38'),
-(3, 'Mahasiswa Demo', 'mahasiswa', 'mahasiswa@kampus.ac.id', 'password_hash_mahasiswa', 'pengguna', 'aktif', '2026-07-01 02:03:38');
+(1, 'Administrator Kampus', 'admin', 'admin@kampus.ac.id', '$2y$10$nlMBTWo5YZR46ndqzChD/uDhgOJ350.P17vZO.pmQpWJRvvBejleq', 'admin', 'aktif', '2026-07-01 02:03:38'),
+(2, 'Petugas Sarpras', 'petugas', 'sarpras@kampus.ac.id', '$2y$10$8jVsyyHCl67.ZwY5Q30QEeNG92avAG0Fnhh/Z8vQhuzx..sLow4ni', 'petugas', 'aktif', '2026-07-01 02:03:38'),
+(3, 'Mahasiswa Demo', 'mahasiswa', 'mahasiswa@kampus.ac.id', '$2y$10$MI.f/M/iSynEYs5fdaiLT.1.SDs/WR/5ig9Juq/XlDGNNKqIod6MW', 'pengguna', 'aktif', '2026-07-01 02:03:38');
 
 --
 -- Indexes for dumped tables
@@ -189,13 +190,13 @@ ALTER TABLE `pengguna`
 -- AUTO_INCREMENT for table `reservasi_ruangan`
 --
 ALTER TABLE `reservasi_ruangan`
-  MODIFY `id_reservasi` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_reservasi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `ruangan`
 --
 ALTER TABLE `ruangan`
-  MODIFY `id_ruangan` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_ruangan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `user_login`

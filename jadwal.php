@@ -3,8 +3,8 @@ include 'koneksi.php';
 
 $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 ?>
-<!DOCTYPE php>
-<php lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -83,30 +83,30 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
         <div class="content-card">
             <h5 class="section-title">Filter Jadwal</h5>
 
-            <form action="#" method="get">
+            <form id="filterForm">
                 <div class="row g-3">
                     <div class="col-md-4">
                         <label class="form-label fw-semibold">Cari Ruangan</label>
-                        <input type="search" class="form-control" placeholder="Nama ruangan atau kode ruangan">
+                       <input type="search"id="cariRuangan"class="form-control"placeholder="Nama ruangan atau kode ruangan">
                     </div>
 
                     <div class="col-md-3">
                         <label class="form-label fw-semibold">Tanggal</label>
-                        <input type="date" class="form-control">
+                        <input type="date"id="filterTanggal"class="form-control">
                     </div>
 
                     <div class="col-md-3">
                         <label class="form-label fw-semibold">Status</label>
-                        <select class="form-select">
-                            <option>Semua Status</option>
-                            <option>Disetujui</option>
-                            <option>Menunggu</option>
-                            <option>Selesai</option>
+                        <select id="filterStatus" class="form-select">
+                        <option value="">Semua Status</option>
+                        <option value="Disetujui">Disetujui</option>
+                        <option value="Menunggu">Menunggu</option>
+                        <option value="Selesai">Selesai</option>
                         </select>
                     </div>
 
                     <div class="col-md-2 d-flex align-items-end">
-                        <button type="submit" class="btn btn-primary w-100">
+                         <button type="submit" class="btn btn-primary w-100">
                             <i class="bi bi-search"></i> Cari
                         </button>
                     </div>
@@ -182,18 +182,20 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
             <h5 class="section-title">Tabel Jadwal Pemakaian</h5>
 
             <div class="table-responsive">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Tanggal</th>
-                            <th>Jam</th>
-                            <th>Ruangan</th>
-                            <th>Pemesan</th>
-                            <th>Keperluan</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <table id="tabelJadwal" class="table table-hover">
+
+                <thead>
+                     <tr>
+                         <th>Tanggal</th>
+                         <th>Jam</th>
+                         <th>Ruangan</th>
+                         <th>Pemesan</th>
+                         <th>Keperluan</th>
+                         <th>Status</th>
+                     </tr>
+                 </thead>
+
+                <tbody>
                         <tr>
                             <td>05 Juli 2026</td>
                             <td>08:00 - 10:00</td>
@@ -225,6 +227,6 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 
     </main>
 </div>
-
+<script src="js/script.js"></script>
 </body>
-</php>
+</html>

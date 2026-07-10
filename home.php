@@ -32,7 +32,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
         <ul class="sidebar-menu">
             <li><a href="home.php" class="active"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
             <li><a href="ruangan.php"><i class="bi bi-door-open"></i> Data Ruangan</a></li>
-            <li><a href="reservasi.php"><i class="bi bi-calendar-plus"></i> Reservasi</a></li>
+            <li><a href="reservasi.php" id="menuReservasi"><i class="bi bi-calendar-plus"></i> Reservasi </a></li>
             <li><a href="jadwal.php"><i class="bi bi-calendar-week"></i> Jadwal Pemakaian</a></li>
             <li><a href="pengguna.php"><i class="bi bi-people"></i> Pengguna</a></li>
             <li><a href="logout.php"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
@@ -176,7 +176,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
             </div>
 
             <div class="table-responsive">
-    <table class="table table-bordered table-hover align-middle text-center shadow rounded overflow-hidden">
+    <table id="tabelReservasi" class="table table-bordered table-hover align-middle text-center shadow rounded overflow-hidden">
 
         <thead class="table-primary">
             <tr>
@@ -237,6 +237,6 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 
     </main>
 </div>
-
+<script src="js/script.js"></script>
 </body>
 </html>

@@ -85,16 +85,16 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
         <div class="content-card">
             <h5 class="section-title">Input Reservasi Ruangan</h5>
 
-            <form action="#" method="post">
+           <form id="formReservasi">
                 <div class="row g-3">
                     <div class="col-md-4">
                         <label class="form-label fw-semibold">Kode Reservasi</label>
-                        <input type="text" class="form-control" value="RSV-2026-004" required>
+                       <input type="text" id="kode" class="form-control" value="RSV-2026-004">
                     </div>
 
                     <div class="col-md-8">
                         <label class="form-label fw-semibold">Pilih Ruangan</label>
-                        <select class="form-select" required>
+                        <select id="ruangan" class="form-select">
                             <option value="">Pilih ruangan</option>
                             <option value="1">Ruang Kuliah A101 - Kapasitas 40</option>
                             <option value="2">Laboratorium Komputer PTI - Kapasitas 35</option>
@@ -105,47 +105,47 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Nama Pemesan</label>
-                        <input type="text" class="form-control" placeholder="Masukkan nama pemesan" required>
+                        <input type="text" id="nama" class="form-control">
                     </div>
 
                     <div class="col-md-3">
                         <label class="form-label fw-semibold">Email</label>
-                        <input type="email" class="form-control" placeholder="nama@email.com">
+                       <input type="email" id="email" class="form-control">
                     </div>
 
                     <div class="col-md-3">
                         <label class="form-label fw-semibold">No. HP</label>
-                        <input type="tel" class="form-control" placeholder="08xxxxxxxxxx">
+                        <input type="tel" id="hp" class="form-control">
                     </div>
 
                     <div class="col-md-4">
                         <label class="form-label fw-semibold">Tanggal Reservasi</label>
-                        <input type="date" class="form-control" min="2026-01-01" required>
+                       <input type="date" id="tanggal" class="form-control">
                     </div>
 
                     <div class="col-md-4">
                         <label class="form-label fw-semibold">Jam Mulai</label>
-                        <input type="time" class="form-control" min="07:00" max="21:00" required>
+                        <input type="time" id="jamMulai" class="form-control">
                     </div>
 
                     <div class="col-md-4">
                         <label class="form-label fw-semibold">Jam Selesai</label>
-                        <input type="time" class="form-control" min="07:00" max="21:00" required>
+                        <input type="time" id="jamSelesai" class="form-control">
                     </div>
 
                     <div class="col-md-8">
                         <label class="form-label fw-semibold">Keperluan</label>
-                        <input type="text" class="form-control" placeholder="Contoh: Seminar, kuliah, rapat, praktikum" required>
+                       <input type="text" id="keperluan" class="form-control">
                     </div>
 
                     <div class="col-md-4">
                         <label class="form-label fw-semibold">Jumlah Peserta</label>
-                        <input type="number" class="form-control" min="1" placeholder="Jumlah peserta" required>
+                        <input type="number" id="peserta" class="form-control">
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Status Reservasi</label>
-                        <select class="form-select" required>
+                        <select id="status" class="form-select">
                             <option value="menunggu">Menunggu</option>
                             <option value="disetujui">Disetujui</option>
                             <option value="ditolak">Ditolak</option>
@@ -156,12 +156,12 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Catatan Admin</label>
-                        <input type="text" class="form-control" placeholder="Catatan persetujuan atau penolakan">
+                       <input type="text" id="catatan" class="form-control">
                     </div>
 
                     <div class="col-12">
                         <label class="form-label fw-semibold">Keterangan Tambahan</label>
-                        <textarea class="form-control" rows="4" placeholder="Tuliskan informasi tambahan terkait reservasi"></textarea>
+                        <textarea id="keterangan" class="form-control"></textarea>
                     </div>
 
                     <div class="col-12">
@@ -187,10 +187,10 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 
             <div class="row g-3 mb-3">
                 <div class="col-md-4">
-                    <input type="search" class="form-control" placeholder="Cari nama pemesan atau kode reservasi">
+                   <input type="search" id="searchInput" class="form-control">
                 </div>
                 <div class="col-md-3">
-                    <select class="form-select">
+                    <select id="filterStatus" class="form-select">
                         <option>Semua Status</option>
                         <option>Menunggu</option>
                         <option>Disetujui</option>
@@ -210,7 +210,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
             </div>
 
             <div class="table-responsive">
-                <table class="table table-hover">
+                <table id="tabelReservasi" class="table table-hover">
                     <thead>
                         <tr>
                             <th>Kode</th>
@@ -270,6 +270,6 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 
     </main>
 </div>
-
+<script src="js/script.js"></script>
 </body>
 </html>
