@@ -1,5 +1,5 @@
 <?php
-include 'koneksi.php';
+require_once "koneksi.php";
 
 $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 ?>
@@ -45,7 +45,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 
         <!-- Form Login -->
 
-        <form action="login.php" method="POST">
+        <form action="auth/login.php" method="POST">
 
             <!-- Username -->
 

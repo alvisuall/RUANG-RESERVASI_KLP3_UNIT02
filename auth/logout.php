@@ -10,7 +10,7 @@ session_unset();
 session_destroy();
 
 // Mengarahkan pengguna kembali ke halaman login
-header("Location: index.php");
+header("Location: ../index.php");
 
 // Menghentikan proses
 exit();

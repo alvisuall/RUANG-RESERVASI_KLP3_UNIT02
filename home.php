@@ -1,5 +1,5 @@
 <?php
-include 'koneksi.php';
+require_once "koneksi.php";
 
 $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 
@@ -64,7 +64,7 @@ $ditolak = mysqli_fetch_assoc($query);
             <li><a href="reservasi.php" id="menuReservasi"><i class="bi bi-calendar-plus"></i> Reservasi </a></li>
             <li><a href="jadwal.php"><i class="bi bi-calendar-week"></i> Jadwal Pemakaian</a></li>
             <li><a href="pengguna.php"><i class="bi bi-people"></i> Pengguna</a></li>
-            <li><a href="logout.php"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
+            <li><a href="auth/logout.php"><i class="bi bi-box-arrow-left"></i> Logout</a></li>
         </ul>
     </aside>
 

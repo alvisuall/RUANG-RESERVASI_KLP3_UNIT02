@@ -5,11 +5,11 @@
 session_start();
 
 // Menghubungkan ke database
-include "koneksi.php";
+require_once "../koneksi.php";
 
 // Memastikan file hanya bisa diakses melalui tombol Login (POST)
 if ($_SERVER["REQUEST_METHOD"] != "POST") {
-    header("Location: index.php");
+    header("Location: ../index.php");
     exit();
 }
 
@@ -52,7 +52,7 @@ if (mysqli_num_rows($result) == 1) {
         // Mengarahkan user sesuai role
         if ($data['role'] == "admin") {
 
-            header("Location: home.php");
+            header("Location: ../home.php");
 
         } elseif ($data['role'] == "petugas") {
 
@@ -61,7 +61,7 @@ if (mysqli_num_rows($result) == 1) {
         } else {
 
             // Role pengguna (mahasiswa/user)
-            header("Location: home.php");
+            header("Location: ../home.php");
 
         }
 
