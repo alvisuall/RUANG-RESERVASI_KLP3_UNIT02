@@ -1,7 +1,9 @@
 <?php
 require_once "koneksi.php";
 
+$queryRuangan = mysqli_query($koneksi, "SELECT * FROM ruangan");
 $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
+
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -234,39 +236,39 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
                         </tr>
                     </thead>
                     <tbody>
+
+                        <?php while($data = mysqli_fetch_assoc($queryRuangan)) { ?>
+
                         <tr>
-                            <td>R-A101</td>
-                            <td>Ruang Kuliah A101</td>
-                            <td>Gedung A</td>
-                            <td>40</td>
-                            <td><span class="badge-status badge-disetujui">Tersedia</span></td>
+                            <td><?= $data['kode_ruangan']; ?></td>
+                            <td><?= $data['nama_ruangan']; ?></td>
+                            <td><?= $data['gedung']; ?></td>
+                            <td><?= $data['kapasitas']; ?></td>
+
                             <td>
-                                <a href="#" class="btn btn-sm btn-outline-primary">Edit</a>
-                                <a href="#" class="btn btn-sm btn-outline-danger">Hapus</a>
+                                <?php
+                                if($data['status_ruangan'] == "Tersedia"){
+                                    echo '<span class="badge-status badge-disetujui">Tersedia</span>';
+                                }else{
+                                    echo '<span class="badge-status badge-menunggu">'.$data['status_ruangan'].'</span>';
+                                }
+                                ?>
                             </td>
-                        </tr>
-                        <tr>
-                            <td>LAB-PTI</td>
-                            <td>Laboratorium Komputer PTI</td>
-                            <td>Gedung Laboratorium</td>
-                            <td>35</td>
-                            <td><span class="badge-status badge-disetujui">Tersedia</span></td>
+
                             <td>
-                                <a href="#" class="btn btn-sm btn-outline-primary">Edit</a>
-                                <a href="#" class="btn btn-sm btn-outline-danger">Hapus</a>
+                                <a href="pages/edit.php?halaman=ruangan&id=<?= $data['id_ruangan']; ?>" class="btn btn-sm btn-outline-primary">
+                                    Edit
+                                </a>
+
+                                <a href="pages/hapus.php?halaman=ruangan&id=<?= $data['id_ruangan']; ?>" class="btn btn-sm btn-outline-danger">
+                                    Hapus
+                                </a>
                             </td>
+
                         </tr>
-                        <tr>
-                            <td>R-B205</td>
-                            <td>Ruang Seminar B205</td>
-                            <td>Gedung B</td>
-                            <td>60</td>
-                            <td><span class="badge-status badge-menunggu">Perawatan</span></td>
-                            <td>
-                                <a href="#" class="btn btn-sm btn-outline-primary">Edit</a>
-                                <a href="#" class="btn btn-sm btn-outline-danger">Hapus</a>
-                            </td>
-                        </tr>
+
+                        <?php } 
+                        ?>
                     </tbody>
                 </table>
             </div>
