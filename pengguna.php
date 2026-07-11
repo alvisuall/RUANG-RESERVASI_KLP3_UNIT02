@@ -1,6 +1,7 @@
 <?php
 require_once "koneksi.php";
 
+$queryPengguna = mysqli_query($koneksi, "SELECT * FROM pengguna");
 $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 ?>
 <!DOCTYPE html>
@@ -171,42 +172,35 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Ridwan Maulana</td>
-                            <td>20260001</td>
-                            <td>Mahasiswa</td>
-                            <td>Fakultas Tarbiyah dan Keguruan</td>
-                            <td>ridwan@student.ac.id</td>
-                            <td>081234567890</td>
-                            <td>
-                                <a href="#" class="btn btn-sm btn-outline-primary">Edit</a>
-                                <a href="#" class="btn btn-sm btn-outline-danger">Hapus</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Dr. Ahmad Zaini</td>
-                            <td>198701012020121001</td>
-                            <td>Dosen</td>
-                            <td>Fakultas Sains dan Teknologi</td>
-                            <td>ahmad@kampus.ac.id</td>
-                            <td>082233445566</td>
-                            <td>
-                                <a href="#" class="btn btn-sm btn-outline-primary">Edit</a>
-                                <a href="#" class="btn btn-sm btn-outline-danger">Hapus</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>HMPS PTI</td>
-                            <td>ORG001</td>
-                            <td>Organisasi</td>
-                            <td>Fakultas Tarbiyah dan Keguruan</td>
-                            <td>hmpspti@kampus.ac.id</td>
-                            <td>085277889900</td>
-                            <td>
-                                <a href="#" class="btn btn-sm btn-outline-primary">Edit</a>
-                                <a href="#" class="btn btn-sm btn-outline-danger">Hapus</a>
-                            </td>
-                        </tr>
+
+                            <?php while($pengguna = mysqli_fetch_assoc($queryPengguna)){ ?>
+
+                            <tr>
+
+                                <td><?= $pengguna['nama_lengkap']; ?></td>
+                                <td><?= $pengguna['nim_nip']; ?></td>
+                                <td><?= $pengguna['jenis_pengguna']; ?></td>
+                                <td><?= $pengguna['fakultas_unit']; ?></td>
+                                <td><?= $pengguna['email']; ?></td>
+                                <td><?= $pengguna['no_hp']; ?></td>
+
+                                <td>
+
+                                    <a href="pages/edit.php?halaman=pengguna&id=<?= $pengguna['id_pengguna']; ?>"
+                                    class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-pencil"></i> Edit
+                                    </a>
+
+                                    <a href="pages/hapus.php?halaman=pengguna&id=<?= $pengguna['id_pengguna']; ?>"
+                                    class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i> Hapus
+                                    </a>
+
+                                </td>
+                            </tr>
+
+                            <?php } ?>
+
                     </tbody>
                 </table>
             </div>

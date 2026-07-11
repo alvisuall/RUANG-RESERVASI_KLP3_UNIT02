@@ -257,11 +257,11 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 
                             <td>
                                 <a href="pages/edit.php?halaman=ruangan&id=<?= $data['id_ruangan']; ?>" class="btn btn-sm btn-outline-primary">
-                                    Edit
+                                    <i class="bi bi-pencil"></i> Edit
                                 </a>
 
                                 <a href="pages/hapus.php?halaman=ruangan&id=<?= $data['id_ruangan']; ?>" class="btn btn-sm btn-outline-danger">
-                                    Hapus
+                                    <i class="bi bi-trash"></i> Hapus
                                 </a>
                             </td>
 
