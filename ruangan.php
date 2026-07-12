@@ -90,22 +90,22 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
                 <div class="row g-3">
                     <div class="col-md-4">
                         <label class="form-label fw-semibold">Kode Ruangan</label>
-                        <input type="text"id="kode"class="form-control"placeholder="Contoh: R-A101">
+                        <input type="text"id="kode"class="form-control"placeholder="R-A101">
                     </div>
 
                     <div class="col-md-8">
                         <label class="form-label fw-semibold">Nama Ruangan</label>
-                       <input type="text"id="nama"class="form-control"placeholder="Contoh: Ruang Kuliah A101">
+                       <input type="text"id="nama"class="form-control"placeholder="Ruang Kuliah A101">
                     </div>
 
                     <div class="col-md-4">
                         <label class="form-label fw-semibold">Gedung</label>
-                       <input type="text"id="gedung"class="form-control"placeholder="Contoh: Gedung A">
+                       <input type="text"id="gedung"class="form-control"placeholder=" Gedung A">
                     </div>
 
                     <div class="col-md-4">
                         <label class="form-label fw-semibold">Lantai</label>
-                        <input type="text"id="lantai"class="form-control"placeholder="Contoh: Lantai 1">
+                        <input type="text"id="lantai"class="form-control"placeholder=" Lantai 1">
                     </div>
 
                     <div class="col-md-4">
@@ -125,7 +125,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Fasilitas</label>
-                        <input type="text"id="fasilitas"class="form-control"placeholder="Contoh: AC, LCD Projector, Whiteboard, WiFi">
+                        <input type="text"id="fasilitas"class="form-control"placeholder="contoh: AC, LCD Projector">
                     </div>
 
                     <div class="col-12">
@@ -145,7 +145,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
                 <h5 class="section-title mb-0">Daftar Ruangan</h5>
 
                 <form action="#" method="get" class="d-flex gap-2">
-                    <input type="search"id="searchInput class="form-control placeholder="Cari nama atau kode ruangan">
+                    <input type="search"id="searchInput class="form-control"placeholder="Cari nama atau kode ruangan">
                     <button type="submit" class="btn btn-primary">
                         <i class="bi bi-search"></i>
                     </button>

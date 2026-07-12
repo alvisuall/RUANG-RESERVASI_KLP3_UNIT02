@@ -94,7 +94,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
                 <div class="row g-3">
                     <div class="col-md-4">
                         <label class="form-label fw-semibold">Kode Reservasi</label>
-                       <input type="text" id="kode" class="form-control" value="RSV-2026-004">
+                       <input type="text" id="kode" class="form-control"placeholder="RSV-2026-004">
                     </div>
 
                     <div class="col-md-8">
@@ -110,42 +110,42 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Nama Pemesan</label>
-                        <input type="text" id="nama" class="form-control">
+                        <input type="text" id="nama" class="form-control"placeholder="John Doe">
                     </div>
 
                     <div class="col-md-3">
                         <label class="form-label fw-semibold">Email</label>
-                       <input type="email" id="email" class="form-control">
+                       <input type="email" id="email" class="form-control"placeholder="johndoe@example.com">
                     </div>
 
                     <div class="col-md-3">
                         <label class="form-label fw-semibold">No. HP</label>
-                        <input type="tel" id="hp" class="form-control">
+                        <input type="tel" id="hp" class="form-control"placeholder="081234567890">
                     </div>
 
                     <div class="col-md-4">
                         <label class="form-label fw-semibold">Tanggal Reservasi</label>
-                       <input type="date" id="tanggal" class="form-control">
+                       <input type="date" id="tanggal" class="form-control"placeholder="2023-10-10">
                     </div>
 
                     <div class="col-md-4">
                         <label class="form-label fw-semibold">Jam Mulai</label>
-                        <input type="time" id="jamMulai" class="form-control">
+                        <input type="time" id="jamMulai" class="form-control"placeholder=" 09:00">
                     </div>
 
                     <div class="col-md-4">
                         <label class="form-label fw-semibold">Jam Selesai</label>
-                        <input type="time" id="jamSelesai" class="form-control">
+                        <input type="time" id="jamSelesai" class="form-control"placeholder="11:00">
                     </div>
 
                     <div class="col-md-8">
                         <label class="form-label fw-semibold">Keperluan</label>
-                       <input type="text" id="keperluan" class="form-control">
+                       <input type="text" id="keperluan" class="form-control"placeholder="Pertemuan dengan dosen">
                     </div>
 
                     <div class="col-md-4">
                         <label class="form-label fw-semibold">Jumlah Peserta</label>
-                        <input type="number" id="peserta" class="form-control">
+                        <input type="number" id="peserta" class="form-control"placeholder=" 20">
                     </div>
 
                     <div class="col-md-6">
@@ -161,12 +161,12 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Catatan Admin</label>
-                       <input type="text" id="catatan" class="form-control">
+                       <input type="text" id="catatan" class="form-control"placeholder="Reservasi disetujui">
                     </div>
 
                     <div class="col-12">
                         <label class="form-label fw-semibold">Keterangan Tambahan</label>
-                        <textarea id="keterangan" class="form-control"></textarea>
+                        <textarea id="keterangan" class="form-control"placeholder="Keterangan tambahan"></textarea>
                     </div>
 
                     <div class="col-12">
