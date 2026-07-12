@@ -2,7 +2,19 @@
 require_once "koneksi.php";
 
 $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
+
+$queryJadwal = mysqli_query($koneksi, "
+SELECT
+    reservasi_ruangan.*,
+    ruangan.nama_ruangan
+FROM reservasi_ruangan
+JOIN ruangan
+ON reservasi_ruangan.id_ruangan = ruangan.id_ruangan
+WHERE reservasi_ruangan.status_reservasi = 'disetujui'
+ORDER BY reservasi_ruangan.tanggal_reservasi ASC, reservasi_ruangan.jam_mulai ASC
+");
 ?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -196,31 +208,24 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
                  </thead>
 
                 <tbody>
-                        <tr>
-                            <td>05 Juli 2026</td>
-                            <td>08:00 - 10:00</td>
-                            <td>Ruang Kuliah A101</td>
-                            <td>Ridwan Maulana</td>
-                            <td>Diskusi Kelompok Mata Kuliah</td>
-                            <td><span class="badge-status badge-disetujui">Disetujui</span></td>
-                        </tr>
-                        <tr>
-                            <td>06 Juli 2026</td>
-                            <td>09:00 - 12:00</td>
-                            <td>Laboratorium Komputer PTI</td>
-                            <td>Dr. Ahmad Zaini</td>
-                            <td>Praktikum Pemrograman Web</td>
-                            <td><span class="badge-status badge-menunggu">Menunggu</span></td>
-                        </tr>
-                        <tr>
-                            <td>10 Juli 2026</td>
-                            <td>13:00 - 16:00</td>
-                            <td>Aula Utama Kampus</td>
-                            <td>HMPS PTI</td>
-                            <td>Seminar Teknologi Pendidikan</td>
-                            <td><span class="badge-status badge-disetujui">Disetujui</span></td>
-                        </tr>
-                    </tbody>
+
+                    <?php while($jadwal = mysqli_fetch_assoc($queryJadwal)){ ?>
+
+                    <tr>
+
+                        
+                        <td><?= $jadwal['tanggal_reservasi']; ?></td>
+                        <td><?= $jadwal['jam_mulai']; ?> - <?= $jadwal['jam_selesai']; ?></td>
+                        <td><?= $jadwal['nama_ruangan']; ?></td>
+                        <td><?= $jadwal['nama_pemesan']; ?></td>
+                        <td><?= $jadwal['keperluan']; ?></td>
+                        <td><?= $jadwal['status_reservasi']; ?></td>
+
+                    </tr>
+
+                    <?php } ?>
+
+                </tbody>
                 </table>
             </div>
         </div>
