@@ -1,6 +1,11 @@
 <?php
 require_once "koneksi.php";
 
+$queryReservasi = mysqli_query($koneksi,
+    "SELECT reservasi_ruangan.*, ruangan.nama_ruangan
+    FROM reservasi_ruangan
+    JOIN ruangan
+    ON reservasi_ruangan.id_ruangan = ruangan.id_ruangan");
 $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 ?>
 <!DOCTYPE html>
@@ -224,45 +229,49 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
                         </tr>
                     </thead>
                     <tbody>
+
+                        <?php while($reservasi_ruangan = mysqli_fetch_assoc($queryReservasi)){ ?>
+
                         <tr>
-                            <td>RSV-2026-001</td>
-                            <td>Ridwan Maulana</td>
-                            <td>Ruang Kuliah A101</td>
-                            <td>05 Juli 2026</td>
-                            <td>08:00 - 10:00</td>
-                            <td>25</td>
-                            <td><span class="badge-status badge-disetujui">Disetujui</span></td>
+
+                            <td><?= $reservasi_ruangan['kode_reservasi']; ?></td>
+                            <td><?= $reservasi_ruangan['nama_pemesan']; ?></td>
+                            <td><?= $reservasi_ruangan['nama_ruangan']; ?></td>
+                            <td><?= $reservasi_ruangan['tanggal_reservasi']; ?></td>
+                            <td><?= $reservasi_ruangan['jam_mulai']; ?></td>
+                            <td><?= $reservasi_ruangan['jumlah_peserta']; ?></td>
+                            
+
                             <td>
-                                <a href="#" class="btn btn-sm btn-outline-primary">Edit</a>
-                                <a href="#" class="btn btn-sm btn-outline-danger">Hapus</a>
+                                <?php
+                                if($reservasi_ruangan['status_reservasi'] == "Disetujui"){
+                                    echo '<span class="badge-status badge-disetujui">Disetujui</span>';
+                                }elseif($reservasi_ruangan['status_reservasi'] == "Menunggu"){
+                                    echo '<span class="badge-status badge-menunggu">Menunggu</span>';
+                                }elseif($reservasi_ruangan['status_reservasi'] == "Ditolak"){
+                                    echo '<span class="badge-status badge-ditolak">Ditolak</span>';
+                                }else{
+                                    echo '<span class="badge-status">'.$reservasi_ruangan['status_reservasi'].'</span>';
+                                }
+                                ?>
                             </td>
-                        </tr>
-                        <tr>
-                            <td>RSV-2026-002</td>
-                            <td>Dr. Ahmad Zaini</td>
-                            <td>Laboratorium Komputer PTI</td>
-                            <td>06 Juli 2026</td>
-                            <td>09:00 - 12:00</td>
-                            <td>30</td>
-                            <td><span class="badge-status badge-menunggu">Menunggu</span></td>
+
                             <td>
-                                <a href="#" class="btn btn-sm btn-outline-primary">Edit</a>
-                                <a href="#" class="btn btn-sm btn-outline-danger">Hapus</a>
+                                <a href="pages/edit.php?halaman=reservasi&id=<?= $reservasi_ruangan['id_reservasi']; ?>"
+                                class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-pencil"></i> Edit
+                                </a>
+
+                                <a href="pages/hapus.php?halaman=reservasi&id=<?= $reservasi_ruangan['id_reservasi']; ?>"
+                                class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i> Hapus
+                                </a>
                             </td>
+
                         </tr>
-                        <tr>
-                            <td>RSV-2026-003</td>
-                            <td>HMPS PTI</td>
-                            <td>Aula Utama Kampus</td>
-                            <td>10 Juli 2026</td>
-                            <td>13:00 - 16:00</td>
-                            <td>180</td>
-                            <td><span class="badge-status badge-disetujui">Disetujui</span></td>
-                            <td>
-                                <a href="#" class="btn btn-sm btn-outline-primary">Edit</a>
-                                <a href="#" class="btn btn-sm btn-outline-danger">Hapus</a>
-                            </td>
-                        </tr>
+
+                        <?php } ?>
+
                     </tbody>
                 </table>
             </div>
