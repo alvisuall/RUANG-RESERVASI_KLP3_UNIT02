@@ -100,17 +100,17 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 
                     <div class="col-md-4">
                         <label class="form-label fw-semibold">Gedung</label>
-                       <input type="text"id="gedung"class="form-control">
+                       <input type="text"id="gedung"class="form-control"placeholder="Contoh: Gedung A">
                     </div>
 
                     <div class="col-md-4">
                         <label class="form-label fw-semibold">Lantai</label>
-                        <input type="text"id="lantai"class="form-control">
+                        <input type="text"id="lantai"class="form-control"placeholder="Contoh: Lantai 1">
                     </div>
 
                     <div class="col-md-4">
                         <label class="form-label fw-semibold">Kapasitas</label>
-                       <input type="number"id="kapasitas"class="form-control">
+                       <input type="number"id="kapasitas"class="form-control"placeholder="Contoh: 50">
                     </div>
 
                     <div class="col-md-6">
@@ -125,7 +125,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Fasilitas</label>
-                        <input type="text"id="fasilitas"class="form-control">
+                        <input type="text"id="fasilitas"class="form-control"placeholder="Contoh: AC, LCD Projector, Whiteboard, WiFi">
                     </div>
 
                     <div class="col-12">
