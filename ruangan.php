@@ -145,7 +145,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
                 <h5 class="section-title mb-0">Daftar Ruangan</h5>
 
                 <form action="#" method="get" class="d-flex gap-2">
-                    <input type="search"id="searchInput class="form-control"placeholder="Cari nama atau kode ruangan">
+                    <input type="search"id="searchInput class="form-control"placeholder="nama atau kode ruangan">
                     <button type="submit" class="btn btn-primary">
                         <i class="bi bi-search"></i>
                     </button>

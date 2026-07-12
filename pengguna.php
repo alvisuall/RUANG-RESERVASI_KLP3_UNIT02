@@ -89,12 +89,12 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Nama Lengkap</label>
-                       <input type="text"id="nama"class="form-control"placeholder="Masukkan nama lengkap">
+                       <input type="text"id="nama"class="form-control"placeholder="john doe">
                     </div>
 
                     <div class="col-md-3">
                         <label class="form-label fw-semibold">NIM atau NIP</label>
-                        <input type="text"id="nim"name="nim"class="form-control"placeholder="NIM atau NIP">
+                        <input type="text"id="nim"name="nim"class="form-control"placeholder="250212896">
                     </div>
 
                     <div class="col-md-3">
@@ -111,27 +111,27 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Fakultas atau Unit</label>
-                        <input type="text"id="fakultas"name="fakultas"class="form-control">
+                        <input type="text"id="fakultas"name="fakultas"class="form-control"placeholder="FTK / 02">
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Prodi atau Bagian</label>
-                        <input type="text"id="prodi"name="prodi"class="form-control">
+                        <input type="text"id="prodi"name="prodi"class="form-control"placeholder="PTI, PAI, dll..">
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Email</label>
-                        <input type="email"id="email"name="email"class="form-control">
+                        <input type="email"id="email"name="email"class="form-control"placeholder="johndoe@example.com">
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">No. HP</label>
-                       <input type="tel"id="hp"name="hp"class="form-control">
+                       <input type="tel"id="hp"name="hp"class="form-control"placeholder="081234567890">
                     </div>
 
                     <div class="col-12">
                         <label class="form-label fw-semibold">Alamat</label>
-                        <textarea id="alamat"name="alamat"class="form-control"rows="3"></textarea>
+                        <textarea id="alamat"name="alamat"class="form-control"placeholder="Jln. Syech Abdurrauf, KOPELMA Darussalam, Kec. Syiah Kuala, Kota Banda Aceh"rows="3"></textarea>
                     </div>
 
                     <div class="col-12">
