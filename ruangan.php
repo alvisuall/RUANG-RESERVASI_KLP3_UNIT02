@@ -260,8 +260,10 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
                                     <i class="bi bi-pencil"></i> Edit
                                 </a>
 
-                                <a href="pages/hapus.php?halaman=ruangan&id=<?= $data['id_ruangan']; ?>" class="btn btn-sm btn-outline-danger">
-                                    <i class="bi bi-trash"></i> Hapus
+                                <a href="pages/hapus.php?halaman=ruangan&id=<?= $data['id_ruangan']; ?>"
+                                    class="btn btn-sm btn-outline-danger"
+                                    onclick="return confirm('Yakin ingin menghapus data ini?');">
+                                        <i class="bi bi-trash"></i> Hapus
                                 </a>
                             </td>
 

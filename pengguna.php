@@ -192,10 +192,10 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
                                     </a>
 
                                     <a href="pages/hapus.php?halaman=pengguna&id=<?= $pengguna['id_pengguna']; ?>"
-                                    class="btn btn-sm btn-outline-danger">
-                                    <i class="bi bi-trash"></i> Hapus
+                                        class="btn btn-sm btn-outline-danger"
+                                        onclick="return confirm('Yakin ingin menghapus data ini?');">
+                                            <i class="bi bi-trash"></i> Hapus
                                     </a>
-
                                 </td>
                             </tr>
 
