@@ -199,7 +199,7 @@ $ditolak = mysqli_fetch_assoc($query);
         <div class="content-card">
             <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
                 <h5 class="section-title mb-0">Reservasi Terbaru</h5>
-                <a href="reservasi.html" class="btn btn-primary btn-sm">
+                <a href="reservasi.php" class="btn btn-primary btn-sm">
                     <i class="bi bi-plus-circle"></i> Tambah Reservasi
                 </a>
             </div>
