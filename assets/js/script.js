@@ -11,11 +11,12 @@ function lihatPassword() {
         icon.className = "bi bi-eye";
     }
 }
-alert("Selamat datang! Masuk untuk reservasi.");
+
 
 document.addEventListener("DOMContentLoaded", function () {
 
 console.log("Script berhasil dijalankan");
+
 
 //==============================
 // SEARCH TABLE
@@ -47,7 +48,7 @@ row.style.display = text.includes(keyword) ? "" : "none";
 // KONFIRMASI LOGOUT
 //==============================
 
-const logout = document.querySelector('a[href="logout.php"]');
+const logout = document.querySelector('a[href="auth/logout.php"]');
 
 if(logout){
 
