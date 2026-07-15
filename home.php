@@ -1,6 +1,16 @@
 <?php
 require_once "koneksi.php";
 
+$queryReservasiTerbaru = mysqli_query($koneksi, "
+SELECT reservasi_ruangan.*,
+       ruangan.nama_ruangan
+FROM reservasi_ruangan
+JOIN ruangan
+ON reservasi_ruangan.id_ruangan = ruangan.id_ruangan
+ORDER BY reservasi_ruangan.created_at DESC
+LIMIT 5
+");
+
 $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 
 $queryRuangan = mysqli_query($koneksi, "SELECT COUNT(*) AS total FROM ruangan");
@@ -219,44 +229,59 @@ $ditolak = mysqli_fetch_assoc($query);
         </thead>
 
         <tbody>
-            <tr class="table-light">
-                <td>RSV-2026-001</td>
-                <td>Ridwan Maulana</td>
-                <td>Ruang Kuliah A101</td>
-                <td>05 Juli 2026</td>
-                <td>08:00 - 10:00</td>
+            
+            <?php while($data = mysqli_fetch_assoc($queryReservasiTerbaru)){ ?>
+
+            <tr>
+
+                <td><?= $data['kode_reservasi']; ?></td>
+
+                <td><?= $data['nama_pemesan']; ?></td>
+
+                <td><?= $data['nama_ruangan']; ?></td>
+
+                <td><?= date("d F Y", strtotime($data['tanggal_reservasi'])); ?></td>
+
+                <td><?= substr($data['jam_mulai'],0,5); ?> - <?= substr($data['jam_selesai'],0,5); ?></td>
+
                 <td>
-                    <span class="badge bg-success rounded-pill">
-                        Disetujui
-                    </span>
+
+                    <?php
+
+                        $status = strtolower(trim($data['status_reservasi']));
+
+                        switch($status){
+
+                            case "disetujui":
+                                echo '<span class="badge bg-success rounded-pill">Disetujui</span>';
+                                break;
+
+                            case "menunggu":
+                                echo '<span class="badge bg-warning text-dark rounded-pill">Menunggu</span>';
+                                break;
+
+                            case "ditolak":
+                                echo '<span class="badge bg-danger rounded-pill">Ditolak</span>';
+                                break;
+
+                            case "selesai":
+                                echo '<span class="badge bg-primary rounded-pill">Selesai</span>';
+                                break;
+
+                            case "dibatalkan":
+                                echo '<span class="badge bg-secondary rounded-pill">Dibatalkan</span>';
+                                break;
+
+                            default:
+                                echo '<span class="badge bg-dark rounded-pill">'.$data['status_reservasi'].'</span>';
+                        }
+
+                        ?>
                 </td>
+
             </tr>
 
-            <tr class="table-info">
-                <td>RSV-2026-002</td>
-                <td>Dr. Ahmad Zaini</td>
-                <td>Laboratorium Komputer PTI</td>
-                <td>06 Juli 2026</td>
-                <td>09:00 - 12:00</td>
-                <td>
-                    <span class="badge bg-warning text-dark rounded-pill">
-                        Menunggu
-                    </span>
-                </td>
-            </tr>
-
-            <tr class="table-light">
-                <td>RSV-2026-003</td>
-                <td>HMPS PTI</td>
-                <td>Aula Utama Kampus</td>
-                <td>10 Juli 2026</td>
-                <td>13:00 - 16:00</td>
-                <td>
-                    <span class="badge bg-danger rounded-pill">
-                        Ditolak
-                    </span>
-                </td>
-            </tr>
+            <?php } ?>
 
         </tbody>
 

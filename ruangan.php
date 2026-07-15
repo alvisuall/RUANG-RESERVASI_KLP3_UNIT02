@@ -273,9 +273,9 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
                             </a>
 
                             <a href="pages/hapus.php?halaman=ruangan&id=<?= $data['id_ruangan']; ?>"
-                            class="btn btn-sm btn-outline-danger"
-                            onclick="return confirm('Yakin ingin menghapus data ini?')">
-                                Hapus
+                                class="btn btn-sm btn-outline-danger"
+                                onclick="return confirm('Yakin ingin menghapus data ini?');">
+                                    <i class="bi bi-trash"></i> Hapus
                             </a>
 
                         </div>
