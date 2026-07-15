@@ -85,64 +85,131 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
         <div class="content-card">
             <h5 class="section-title">Form Data Pengguna</h5>
 
-            <form id="formPengguna">
+            <form id="formPengguna"
+                action="pages/tambah.php?halaman=pengguna"
+                method="POST">
+
                 <div class="row g-3">
+
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Nama Lengkap</label>
-                       <input type="text"id="nama"class="form-control"placeholder="john doe">
+                        <input
+                            type="text"
+                            id="nama"
+                            name="nama_lengkap"
+                            class="form-control"
+                            placeholder="John Doe"
+                            required>
                     </div>
 
                     <div class="col-md-3">
                         <label class="form-label fw-semibold">NIM atau NIP</label>
-                        <input type="text"id="nim"name="nim"class="form-control"placeholder="250212896">
+                        <input
+                            type="text"
+                            id="nim"
+                            name="nim_nip"
+                            class="form-control"
+                            placeholder="250212896"
+                            required>
                     </div>
 
                     <div class="col-md-3">
                         <label class="form-label fw-semibold">Jenis Pengguna</label>
-                        <select id="jenis"name="jenis"class="form-select">
-                            <option value="">Pilih jenis</option>
-                            <option value="mahasiswa">Mahasiswa</option>
-                            <option value="dosen">Dosen</option>
-                            <option value="tendik">Tendik</option>
-                            <option value="organisasi">Organisasi</option>
-                            <option value="umum">Umum</option>
+                        <select
+                            id="jenis"
+                            name="jenis_pengguna"
+                            class="form-select"
+                            required>
+
+                            <option value="">Pilih Jenis</option>
+                            <option value="Mahasiswa">Mahasiswa</option>
+                            <option value="Dosen">Dosen</option>
+                            <option value="Tendik">Tendik</option>
+                            <option value="Organisasi">Organisasi</option>
+                            <option value="Umum">Umum</option>
+
                         </select>
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Fakultas atau Unit</label>
-                        <input type="text"id="fakultas"name="fakultas"class="form-control"placeholder="FTK / 02">
+                        <input
+                            type="text"
+                            id="fakultas"
+                            name="fakultas_unit"
+                            class="form-control"
+                            placeholder="FTK / 02"
+                            required>
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Prodi atau Bagian</label>
-                        <input type="text"id="prodi"name="prodi"class="form-control"placeholder="PTI, PAI, dll..">
+                        <input
+                            type="text"
+                            id="prodi"
+                            name="prodi_bagian"
+                            class="form-control"
+                            placeholder="PTI, PAI, dll"
+                            required>
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Email</label>
-                        <input type="email"id="email"name="email"class="form-control"placeholder="johndoe@example.com">
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            class="form-control"
+                            placeholder="johndoe@example.com"
+                            required>
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">No. HP</label>
-                       <input type="tel"id="hp"name="hp"class="form-control"placeholder="081234567890">
+                        <input
+                            type="tel"
+                            id="hp"
+                            name="no_hp"
+                            class="form-control"
+                            placeholder="081234567890"
+                            required>
                     </div>
 
                     <div class="col-12">
                         <label class="form-label fw-semibold">Alamat</label>
-                        <textarea id="alamat"name="alamat"class="form-control"placeholder="Jln. Syech Abdurrauf, KOPELMA Darussalam, Kec. Syiah Kuala, Kota Banda Aceh"rows="3"></textarea>
+                        <textarea
+                            id="alamat"
+                            name="alamat"
+                            class="form-control"
+                            rows="3"
+                            placeholder="Jln. Syech Abdurrauf, Darussalam"
+                            required></textarea>
                     </div>
 
                     <div class="col-12">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-save"></i> Simpan Pengguna
+
+                        <button
+                            type="submit"
+                            name="simpan"
+                            class="btn btn-primary">
+
+                            <i class="bi bi-save"></i>
+                            Simpan Pengguna
+
                         </button>
-                        <button type="reset" class="btn btn-light border">
+
+                        <button
+                            type="reset"
+                            class="btn btn-light border">
+
                             Reset
+
                         </button>
+
                     </div>
+
                 </div>
+
             </form>
         </div>
 

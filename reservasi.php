@@ -90,100 +90,216 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
         <div class="content-card">
             <h5 class="section-title">Input Reservasi Ruangan</h5>
 
-           <form id="formReservasi">
+            <form id="formReservasi"
+                action="pages/tambah.php?halaman=reservasi"
+                method="POST">
+
                 <div class="row g-3">
+
+                    <!-- Kode Reservasi -->
                     <div class="col-md-4">
                         <label class="form-label fw-semibold">Kode Reservasi</label>
-                       <input type="text" id="kode" class="form-control"placeholder="RSV-2026-004">
+                        <input type="text"
+                            name="kode_reservasi"
+                            class="form-control"
+                            placeholder="RSV-2026-001"
+                            required>
                     </div>
 
+                    <!-- Pilih Pengguna -->
                     <div class="col-md-8">
+                        <label class="form-label fw-semibold">Pilih Pengguna</label>
+
+                        <select name="id_pengguna"
+                                class="form-select"
+                                required>
+
+                            <option value="">Pilih Pengguna</option>
+
+                            <?php
+                            $pengguna = mysqli_query($koneksi,
+                            "SELECT * FROM pengguna ORDER BY nama_lengkap ASC");
+
+                            while($p=mysqli_fetch_assoc($pengguna)){
+                            ?>
+
+                            <option value="<?= $p['id_pengguna']; ?>">
+
+                                <?= $p['nama_lengkap']; ?>
+
+                                (<?= $p['nim_nip']; ?>)
+
+                            </option>
+
+                            <?php } ?>
+
+                        </select>
+                    </div>
+
+                    <!-- Pilih Ruangan -->
+                    <div class="col-md-12">
                         <label class="form-label fw-semibold">Pilih Ruangan</label>
-                        <select id="ruangan" class="form-select">
-                            <option value="">Pilih ruangan</option>
-                            <option value="1">Ruang Kuliah A101 - Kapasitas 40</option>
-                            <option value="2">Laboratorium Komputer PTI - Kapasitas 35</option>
-                            <option value="3">Aula Utama Kampus - Kapasitas 250</option>
-                            <option value="4">Ruang Seminar B205 - Kapasitas 60</option>
+
+                        <select name="id_ruangan"
+                                class="form-select"
+                                required>
+
+                            <option value="">Pilih Ruangan</option>
+
+                            <?php
+                            $ruangan=mysqli_query($koneksi,
+
+                            "SELECT *
+                            FROM ruangan
+                            WHERE status_ruangan='tersedia'
+                            ORDER BY nama_ruangan");
+
+                            while($r=mysqli_fetch_assoc($ruangan)){
+                            ?>
+
+                            <option value="<?= $r['id_ruangan']; ?>">
+
+                                <?= $r['nama_ruangan']; ?>
+
+                                |
+
+                                <?= $r['gedung']; ?>
+
+                                |
+
+                                Kapasitas <?= $r['kapasitas']; ?>
+
+                            </option>
+
+                            <?php } ?>
+
                         </select>
                     </div>
 
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold">Nama Pemesan</label>
-                        <input type="text" id="nama" class="form-control"placeholder="John Doe">
-                    </div>
-
-                    <div class="col-md-3">
-                        <label class="form-label fw-semibold">Email</label>
-                       <input type="email" id="email" class="form-control"placeholder="johndoe@example.com">
-                    </div>
-
-                    <div class="col-md-3">
-                        <label class="form-label fw-semibold">No. HP</label>
-                        <input type="tel" id="hp" class="form-control"placeholder="081234567890">
-                    </div>
-
+                    <!-- Tanggal -->
                     <div class="col-md-4">
-                        <label class="form-label fw-semibold">Tanggal Reservasi</label>
-                       <input type="date" id="tanggal" class="form-control"placeholder="2023-10-10">
+                        <label class="form-label fw-semibold">
+                            Tanggal Reservasi
+                        </label>
+
+                        <input type="date"
+                            name="tanggal_reservasi"
+                            class="form-control"
+                            required>
                     </div>
 
+                    <!-- Jam Mulai -->
                     <div class="col-md-4">
-                        <label class="form-label fw-semibold">Jam Mulai</label>
-                        <input type="time" id="jamMulai" class="form-control"placeholder=" 09:00">
+                        <label class="form-label fw-semibold">
+                            Jam Mulai
+                        </label>
+
+                        <input type="time"
+                            name="jam_mulai"
+                            class="form-control"
+                            required>
                     </div>
 
+                    <!-- Jam Selesai -->
                     <div class="col-md-4">
-                        <label class="form-label fw-semibold">Jam Selesai</label>
-                        <input type="time" id="jamSelesai" class="form-control"placeholder="11:00">
+                        <label class="form-label fw-semibold">
+                            Jam Selesai
+                        </label>
+
+                        <input type="time"
+                            name="jam_selesai"
+                            class="form-control"
+                            required>
                     </div>
 
+                    <!-- Keperluan -->
                     <div class="col-md-8">
-                        <label class="form-label fw-semibold">Keperluan</label>
-                       <input type="text" id="keperluan" class="form-control"placeholder="Pertemuan dengan dosen">
+                        <label class="form-label fw-semibold">
+                            Keperluan
+                        </label>
+
+                        <input type="text"
+                            name="keperluan"
+                            class="form-control"
+                            placeholder="Contoh : Seminar, Rapat, Kuliah Umum"
+                            required>
                     </div>
 
+                    <!-- Jumlah Peserta -->
                     <div class="col-md-4">
-                        <label class="form-label fw-semibold">Jumlah Peserta</label>
-                        <input type="number" id="peserta" class="form-control"placeholder=" 20">
+                        <label class="form-label fw-semibold">
+                            Jumlah Peserta
+                        </label>
+
+                        <input type="number"
+                            name="jumlah_peserta"
+                            class="form-control"
+                            min="1"
+                            placeholder="20"
+                            required>
                     </div>
 
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold">Status Reservasi</label>
-                        <select id="status" class="form-select">
-                            <option value="menunggu">Menunggu</option>
-                            <option value="disetujui">Disetujui</option>
-                            <option value="ditolak">Ditolak</option>
-                            <option value="selesai">Selesai</option>
-                            <option value="dibatalkan">Dibatalkan</option>
-                        </select>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold">Catatan Admin</label>
-                       <input type="text" id="catatan" class="form-control"placeholder="Reservasi disetujui">
-                    </div>
-
+                    <!-- Keterangan -->
                     <div class="col-12">
-                        <label class="form-label fw-semibold">Keterangan Tambahan</label>
-                        <textarea id="keterangan" class="form-control"placeholder="Keterangan tambahan"></textarea>
+                        <label class="form-label fw-semibold">
+                            Keterangan Tambahan
+                        </label>
+
+                        <textarea name="keterangan"
+                                class="form-control"
+                                rows="3"
+                                placeholder="Masukkan keterangan tambahan (opsional)"></textarea>
                     </div>
 
+                    <!-- Hidden -->
+                    <input type="hidden"
+                        name="status_reservasi"
+                        value="menunggu">
+
+                    <input type="hidden"
+                        name="catatan_admin"
+                        value="-">
+
+                    <!-- Informasi -->
                     <div class="col-12">
-                        <div class="alert alert-info mb-0">
-                            <strong>Validasi:</strong> tanggal wajib diisi, jam mulai dan jam selesai wajib diisi, jam mulai harus lebih awal dari jam selesai, dan jumlah peserta minimal 1 orang.
+
+                        <div class="alert alert-info">
+
+                            <strong>Informasi :</strong>
+
+                            Setelah reservasi dikirim,
+                            status akan menjadi
+                            <strong>Menunggu</strong>
+                            dan akan diverifikasi oleh Administrator.
+
                         </div>
+
                     </div>
 
+                    <!-- Tombol -->
                     <div class="col-12">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-send"></i> Ajukan Reservasi
+
+                        <button type="submit"
+                                name="simpan"
+                                class="btn btn-primary">
+
+                            <i class="bi bi-send"></i>
+
+                            Ajukan Reservasi
+
                         </button>
-                        <button type="reset" class="btn btn-light border">
+
+                        <button type="reset"
+                                class="btn btn-light border">
+
                             Reset
+
                         </button>
+
                     </div>
+
                 </div>
+
             </form>
         </div>
 

@@ -1,43 +1,156 @@
 <?php
 require_once "../koneksi.php";
 
-if (isset($_GET['halaman']) && isset($_GET['id'])) {
+if (!isset($_GET['halaman']) || !isset($_GET['id'])) {
+    die("Parameter tidak lengkap.");
+}
 
-    $halaman = $_GET['halaman'];
-    $id = $_GET['id'];
+$halaman = $_GET['halaman'];
+$id = (int)$_GET['id'];
 
-    switch ($halaman) {
+switch ($halaman) {
 
-        case "ruangan":
-            $sql = "DELETE FROM ruangan WHERE id_ruangan = ?";
-            $redirect = "../ruangan.php";
-            break;
+    /*
+    ========================================
+            HAPUS RUANGAN
+    ========================================
+    */
+    case "ruangan":
 
-        case "pengguna":
-            $sql = "DELETE FROM pengguna WHERE id_pengguna = ?";
-            $redirect = "../pengguna.php";
-            break;
+        // Cek apakah ruangan masih dipakai reservasi
+        $cek = mysqli_prepare(
+            $koneksi,
+            "SELECT COUNT(*) 
+             FROM reservasi_ruangan
+             WHERE id_ruangan=?"
+        );
 
-        case "reservasi":
-            $sql = "DELETE FROM reservasi_ruangan WHERE id_reservasi = ?";
-            $redirect = "../reservasi.php";
-            break;
+        mysqli_stmt_bind_param($cek, "i", $id);
+        mysqli_stmt_execute($cek);
+        mysqli_stmt_bind_result($cek, $jumlah);
+        mysqli_stmt_fetch($cek);
+        mysqli_stmt_close($cek);
 
-        default:
-            die("Halaman tidak dikenali.");
-    }
+        if ($jumlah > 0) {
 
-    $stmt = mysqli_prepare($koneksi, $sql);
-    mysqli_stmt_bind_param($stmt, "i", $id);
+            echo "<script>
+                alert('Ruangan masih digunakan pada data reservasi!');
+                window.location='../ruangan.php';
+            </script>";
+            exit();
+        }
 
-    if (mysqli_stmt_execute($stmt)) {
-        header("Location: $redirect");
-        exit();
-    } else {
-        echo "Gagal menghapus data.";
-    }
+        $hapus = mysqli_prepare(
+            $koneksi,
+            "DELETE FROM ruangan
+             WHERE id_ruangan=?"
+        );
 
-} else {
-    echo "Parameter tidak lengkap.";
+        mysqli_stmt_bind_param($hapus, "i", $id);
+
+        if (mysqli_stmt_execute($hapus)) {
+
+            header("Location: ../ruangan.php?status=hapus");
+
+        } else {
+
+            echo "<script>
+                alert('Gagal menghapus data!');
+                window.location='../ruangan.php';
+            </script>";
+
+        }
+
+    break;
+
+    /*
+    ========================================
+            HAPUS PENGGUNA
+    ========================================
+    */
+
+    case "pengguna":
+
+        // Cek apakah pengguna masih punya reservasi
+        $cek = mysqli_prepare(
+            $koneksi,
+            "SELECT COUNT(*)
+             FROM reservasi_ruangan
+             WHERE id_pengguna=?"
+        );
+
+        mysqli_stmt_bind_param($cek, "i", $id);
+        mysqli_stmt_execute($cek);
+        mysqli_stmt_bind_result($cek, $jumlah);
+        mysqli_stmt_fetch($cek);
+        mysqli_stmt_close($cek);
+
+        if ($jumlah > 0) {
+
+            echo "<script>
+                alert('Pengguna masih memiliki data reservasi!');
+                window.location='../pengguna.php';
+            </script>";
+            exit();
+        }
+
+        $hapus = mysqli_prepare(
+            $koneksi,
+            "DELETE FROM pengguna
+             WHERE id_pengguna=?"
+        );
+
+        mysqli_stmt_bind_param($hapus, "i", $id);
+
+        if (mysqli_stmt_execute($hapus)) {
+
+            header("Location: ../pengguna.php?status=hapus");
+
+        } else {
+
+            echo "<script>
+                alert('Gagal menghapus data!');
+                window.location='../pengguna.php';
+            </script>";
+
+        }
+
+    break;
+
+    /*
+    ========================================
+            HAPUS RESERVASI
+    ========================================
+    */
+
+    case "reservasi":
+
+        $hapus = mysqli_prepare(
+            $koneksi,
+            "DELETE FROM reservasi_ruangan
+             WHERE id_reservasi=?"
+        );
+
+        mysqli_stmt_bind_param($hapus, "i", $id);
+
+        if (mysqli_stmt_execute($hapus)) {
+
+            header("Location: ../reservasi.php?status=hapus");
+
+        } else {
+
+            echo "<script>
+                alert('Gagal menghapus data!');
+                window.location='../reservasi.php';
+            </script>";
+
+        }
+
+    break;
+
+    default:
+
+        die("Halaman tidak dikenali.");
+
 }
 ?>

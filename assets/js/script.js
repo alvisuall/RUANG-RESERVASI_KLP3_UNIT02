@@ -630,67 +630,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener("DOMContentLoaded", function () {
 
-const form=document.getElementById("formRuangan");
 
-if(form){
-
-form.addEventListener("submit",function(e){
-
-e.preventDefault();
-
-let kode=document.getElementById("kode").value.trim();
-let nama=document.getElementById("nama").value.trim();
-let gedung=document.getElementById("gedung").value.trim();
-let lantai=document.getElementById("lantai").value.trim();
-let kapasitas=document.getElementById("kapasitas").value.trim();
-let status=document.getElementById("status").value;
-let fasilitas=document.getElementById("fasilitas").value.trim();
-
-if(kode==""){
-alert("Kode ruangan tidak boleh kosong");
-return;
-}
-
-if(nama==""){
-alert("Nama ruangan tidak boleh kosong");
-return;
-}
-
-if(gedung==""){
-alert("Gedung tidak boleh kosong");
-return;
-}
-
-if(lantai==""){
-alert("Lantai tidak boleh kosong");
-return;
-}
-
-if(kapasitas==""){
-alert("Kapasitas tidak boleh kosong");
-return;
-}
-
-if(kapasitas<=0){
-alert("Kapasitas harus lebih dari 0");
-return;
-}
-
-if(status==""){
-alert("Pilih status ruangan");
-return;
-}
-
-if(fasilitas==""){
-alert("Fasilitas tidak boleh kosong");
-return;
-}
-
-alert("Data ruangan berhasil divalidasi.");
-
-});
-
-}
 
 //================ SEARCH ===================
 

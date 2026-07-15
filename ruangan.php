@@ -83,73 +83,155 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 
 </div>
 
+<?php if (isset($_GET['success'])) : ?>
+
+<div class="alert alert-success alert-dismissible fade show" role="alert">
+
+    <strong>Berhasil!</strong> Data ruangan berhasil ditambahkan.
+
+    <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert">
+    </button>
+
+</div>
+
+<?php endif; ?>
+
+
+<?php if (isset($_GET['error'])) : ?>
+
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+
+    <strong>Gagal!</strong> Data tidak berhasil disimpan.
+
+    <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert">
+    </button>
+
+</div>
+
+<?php endif; ?>
+
         <div class="content-card">
             <h5 class="section-title">Form Tambah atau Edit Ruangan</h5>
 
-            <form id="formRuangan">
+            <form id="formRuangan"
+                action="pages/tambah.php?halaman=ruangan"
+                method="POST">
+
                 <div class="row g-3">
+
                     <div class="col-md-4">
                         <label class="form-label fw-semibold">Kode Ruangan</label>
-                        <input type="text"id="kode"class="form-control"placeholder="R-A101">
+                        <input
+                            type="text"
+                            id="kode"
+                            name="kode_ruangan"
+                            class="form-control"
+                            placeholder="R-A101"
+                            required>
                     </div>
 
                     <div class="col-md-8">
                         <label class="form-label fw-semibold">Nama Ruangan</label>
-                       <input type="text"id="nama"class="form-control"placeholder="Ruang Kuliah A101">
+                        <input
+                            type="text"
+                            id="nama"
+                            name="nama_ruangan"
+                            class="form-control"
+                            placeholder="Ruang Kuliah A101"
+                            required>
                     </div>
 
                     <div class="col-md-4">
                         <label class="form-label fw-semibold">Gedung</label>
-                       <input type="text"id="gedung"class="form-control"placeholder=" Gedung A">
+                        <input
+                            type="text"
+                            id="gedung"
+                            name="gedung"
+                            class="form-control"
+                            placeholder="Gedung A"
+                            required>
                     </div>
 
                     <div class="col-md-4">
                         <label class="form-label fw-semibold">Lantai</label>
-                        <input type="text"id="lantai"class="form-control"placeholder=" Lantai 1">
+                        <input
+                            type="text"
+                            id="lantai"
+                            name="lantai"
+                            class="form-control"
+                            placeholder="Lantai 1"
+                            required>
                     </div>
 
                     <div class="col-md-4">
                         <label class="form-label fw-semibold">Kapasitas</label>
-                       <input type="number"id="kapasitas"class="form-control"placeholder="Contoh: 50">
+                        <input
+                            type="number"
+                            id="kapasitas"
+                            name="kapasitas"
+                            class="form-control"
+                            placeholder="Contoh: 50"
+                            required>
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Status Ruangan</label>
-                        <select id="status" class="form-select">
-                            <option value="">Pilih status</option>
-                            <option value="tersedia">Tersedia</option>
-                            <option value="perawatan">Perawatan</option>
-                            <option value="tidak_aktif">Tidak Aktif</option>
+                        <select
+                            id="status"
+                            name="status_ruangan"
+                            class="form-select"
+                            required>
+
+                            <option value="">Pilih Status</option>
+                            <option value="Tersedia">Tersedia</option>
+                            <option value="Perawatan">Perawatan</option>
+                            <option value="Tidak Aktif">Tidak Aktif</option>
+
                         </select>
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Fasilitas</label>
-                        <input type="text"id="fasilitas"class="form-control"placeholder="contoh: AC, LCD Projector">
+                        <input
+                            type="text"
+                            id="fasilitas"
+                            name="fasilitas"
+                            class="form-control"
+                            placeholder="Contoh: AC, LCD Projector"
+                            required>
                     </div>
 
                     <div class="col-12">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-save"></i> Simpan Ruangan
+
+                        <button
+                            type="submit"
+                            name="simpan"
+                            class="btn btn-primary">
+
+                            <i class="bi bi-save"></i>
+                            Simpan Ruangan
+
                         </button>
-                        <button type="reset" class="btn btn-light border">
+
+                        <button
+                            type="reset"
+                            class="btn btn-light border">
+
                             Reset
+
                         </button>
+
                     </div>
+
                 </div>
+
             </form>
-        </div>
-
-        <div class="content-card">
-            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
-                <h5 class="section-title mb-0">Daftar Ruangan</h5>
-
-                <form action="#" method="get" class="d-flex gap-2">
-                    <input type="search"id="searchInput class="form-control"placeholder="nama atau kode ruangan">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="bi bi-search"></i>
-                    </button>
-                </form>
             </div>
 
             <div class="row g-4 mb-4">
@@ -278,6 +360,27 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 
     </main>
 </div>
+<script>
+
+setTimeout(function(){
+
+    let alert=document.querySelector(".alert");
+
+    if(alert){
+
+        alert.classList.remove("show");
+
+        setTimeout(function(){
+
+            alert.remove();
+
+        },300);
+
+    }
+
+},3000);
+
+</script>
 <script src="assets/js/script.js"></script>
 </body>
 </html>
