@@ -1,71 +1,161 @@
 <?php
 require_once "../koneksi.php";
 
-if (!isset($_GET['halaman']) || !isset($_GET['id'])) {
-    die("Parameter tidak lengkap.");
-}
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-$halaman = $_GET['halaman'];
-$id = $_GET['id'];
+    $halaman = $_POST['halaman'];
 
-switch ($halaman) {
+    switch ($halaman) {
 
-    case "ruangan":
+        // ==========================
+        // EDIT RUANGAN
+        // ==========================
 
-        // Ambil data berdasarkan ID
-        $stmt = mysqli_prepare($koneksi, "SELECT * FROM ruangan WHERE id_ruangan = ?");
-        mysqli_stmt_bind_param($stmt, "i", $id);
-        mysqli_stmt_execute($stmt);
+        case "ruangan":
 
-        $result = mysqli_stmt_get_result($stmt);
-        $data = mysqli_fetch_assoc($result);
+            $sql = "UPDATE ruangan SET
+                        kode_ruangan=?,
+                        nama_ruangan=?,
+                        gedung=?,
+                        lantai=?,
+                        kapasitas=?,
+                        status_ruangan=?,
+                        fasilitas=?
+                    WHERE id_ruangan=?";
 
-        // Jika tombol Simpan ditekan
-        if (isset($_POST['simpan'])) {
-
-            $kode = $_POST['kode_ruangan'];
-            $nama = $_POST['nama_ruangan'];
-            $gedung = $_POST['gedung'];
-            $lantai = $_POST['lantai'];
-            $kapasitas = $_POST['kapasitas'];
-            $fasilitas = $_POST['fasilitas'];
-            $status = $_POST['status_ruangan'];
-
-            $update = mysqli_prepare($koneksi,
-            "UPDATE ruangan
-            SET kode_ruangan=?,
-                nama_ruangan=?,
-                gedung=?,
-                lantai=?,
-                kapasitas=?,
-                fasilitas=?,
-                status_ruangan=?
-            WHERE id_ruangan=?");
+            $stmt = mysqli_prepare($koneksi, $sql);
 
             mysqli_stmt_bind_param(
-                $update,
+                $stmt,
                 "ssssissi",
-                $kode,
-                $nama,
-                $gedung,
-                $lantai,
-                $kapasitas,
-                $fasilitas,
-                $status,
-                $id
+                $_POST['kode_ruangan'],
+                $_POST['nama_ruangan'],
+                $_POST['gedung'],
+                $_POST['lantai'],
+                $_POST['kapasitas'],
+                $_POST['status_ruangan'],
+                $_POST['fasilitas'],
+                $_POST['id_ruangan']
             );
 
-            if(mysqli_stmt_execute($update)){
-                header("Location: ../ruangan.php");
-                exit();
-            }else{
-                echo "Gagal mengubah data.";
-            }
-        }
+            $redirect = "../ruangan.php";
 
         break;
 
-    default:
-        die("Halaman tidak dikenali.");
+        // ==========================
+        // EDIT RESERVASI
+        // ==========================
+
+        case "reservasi":
+
+            $sql = "UPDATE reservasi_ruangan SET
+
+                        kode_reservasi=?,
+                        id_ruangan=?,
+                        id_pengguna=?,
+                        nama_pemesan=?,
+                        email_pemesan=?,
+                        no_hp=?,
+                        tanggal_reservasi=?,
+                        jam_mulai=?,
+                        jam_selesai=?,
+                        keperluan=?,
+                        keterangan=?,
+                        jumlah_peserta=?,
+                        status_reservasi=?,
+                        catatan_admin=?
+
+                    WHERE id_reservasi=?";
+
+            $stmt = mysqli_prepare($koneksi,$sql);
+
+            mysqli_stmt_bind_param(
+
+                $stmt,
+
+                "siissssssssissi",
+
+                $_POST['kode_reservasi'],
+                $_POST['id_ruangan'],
+                $_POST['id_pengguna'],
+                $_POST['nama_pemesan'],
+                $_POST['email_pemesan'],
+                $_POST['no_hp'],
+                $_POST['tanggal_reservasi'],
+                $_POST['jam_mulai'],
+                $_POST['jam_selesai'],
+                $_POST['keperluan'],
+                $_POST['keterangan'],
+                $_POST['jumlah_peserta'],
+                $_POST['status_reservasi'],
+                $_POST['catatan_admin'],
+                $_POST['id_reservasi']
+
+            );
+
+            $redirect="../reservasi.php";
+
+        break;
+
+         // ==========================
+        // EDIT PENGGUNA
+        // ==========================
+
+        case "pengguna":
+
+            $sql = "UPDATE pengguna SET
+
+                        nama_lengkap=?,
+                        nim_nip=?,
+                        jenis_pengguna=?,
+                        fakultas_unit=?,
+                        prodi_bagian=?,
+                        email=?,
+                        no_hp=?,
+                        alamat=?
+
+                    WHERE id_pengguna=?";
+
+            $stmt = mysqli_prepare($koneksi,$sql);
+
+          mysqli_stmt_bind_param(
+
+            $stmt,
+
+            "ssssssssi",
+
+            $_POST['nama_lengkap'],
+            $_POST['nim_nip'],
+            $_POST['jenis_pengguna'],
+            $_POST['fakultas_unit'],
+            $_POST['prodi_bagian'],
+            $_POST['email'],
+            $_POST['no_hp'],
+            $_POST['alamat'],
+            $_POST['id_pengguna']
+
+         );
+
+            $redirect="../pengguna.php";
+
+        break;
+
+        default:
+
+            die("Halaman tidak dikenali.");
+
+    }
+
+    if(mysqli_stmt_execute($stmt)){
+
+        header("Location: $redirect");
+        exit();
+
+    }else{
+
+        echo mysqli_error($koneksi);
+
+    }
+
 }
 ?>

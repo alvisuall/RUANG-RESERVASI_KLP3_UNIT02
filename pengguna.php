@@ -1,9 +1,28 @@
 <?php
 require_once "koneksi.php";
 
+$mode = "tambah";
+$dataEdit = [];
+
+if(isset($_GET['edit'])){
+
+    $mode = "edit";
+
+    $id = (int)$_GET['edit'];
+
+    $queryEdit = mysqli_query(
+        $koneksi,
+        "SELECT * FROM pengguna WHERE id_pengguna = $id"
+    );
+
+    $dataEdit = mysqli_fetch_assoc($queryEdit);
+
+}
+
 $queryPengguna = mysqli_query($koneksi, "SELECT * FROM pengguna");
 $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 ?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -83,61 +102,93 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 </div>
 
         <div class="content-card">
-            <h5 class="section-title">Form Data Pengguna</h5>
+            <h5 class="section-title"><?= ($mode=="edit") ? "Form Edit Pengguna" : "Form Tambah Pengguna"; ?></h5>
 
-            <form id="formPengguna">
+            <form id="formPengguna"
+                action="<?= ($mode=="edit") ? "pages/edit.php" : "pages/tambah.php"; ?>"
+                method="POST">
+                <input type="hidden" name="halaman" value="pengguna">
+                    <?php if($mode=="edit"){ ?>
+                    <input
+                    type="hidden"
+                    name="id_pengguna"
+                    value="<?= $dataEdit['id_pengguna']; ?>">
+                    <?php } ?>
+
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Nama Lengkap</label>
-                       <input type="text"id="nama"class="form-control"placeholder="john doe">
+                       <input type="text"id="nama_lengkap"name="nama_lengkap"class="form-control"placeholder="john doe" value="<?= ($mode=="edit") ? $dataEdit['nama_lengkap'] : ''; ?>">
                     </div>
 
                     <div class="col-md-3">
                         <label class="form-label fw-semibold">NIM atau NIP</label>
-                        <input type="text"id="nim"name="nim"class="form-control"placeholder="250212896">
+                        <input type="text"id="nim_nip"name="nim_nip"class="form-control"placeholder="250212896" value="<?= ($mode=="edit") ? $dataEdit['nim_nip'] : ''; ?>">
                     </div>
 
                     <div class="col-md-3">
                         <label class="form-label fw-semibold">Jenis Pengguna</label>
-                        <select id="jenis"name="jenis"class="form-select">
-                            <option value="">Pilih jenis</option>
-                            <option value="mahasiswa">Mahasiswa</option>
-                            <option value="dosen">Dosen</option>
-                            <option value="tendik">Tendik</option>
-                            <option value="organisasi">Organisasi</option>
-                            <option value="umum">Umum</option>
+                       <select name="jenis_pengguna" class="form-select">
+
+                            <option value="Mahasiswa"
+                            <?= ($mode=="edit" && $dataEdit['jenis_pengguna']=="Mahasiswa") ? "selected" : ""; ?>>
+                            Mahasiswa
+                            </option>
+
+                            <option value="Dosen"
+                            <?= ($mode=="edit" && $dataEdit['jenis_pengguna']=="Dosen") ? "selected" : ""; ?>>
+                            Dosen
+                            </option>
+
+                            <option value="Tendik"
+                            <?= ($mode=="edit" && $dataEdit['jenis_pengguna']=="Tendik") ? "selected" : ""; ?>>
+                            Tendik
+                            </option>
+                            
+                            <option value="Organisasi"
+                            <?= ($mode=="edit" && $dataEdit['jenis_pengguna']=="Organisasi") ? "selected" : ""; ?>>
+                            Organisasi
+                            </option>
+
+                            <option value="Umum"
+                            <?= ($mode=="edit" && $dataEdit['jenis_pengguna']=="Umum") ? "selected" : ""; ?>>
+                            Umum
+                            </option>
+
                         </select>
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Fakultas atau Unit</label>
-                        <input type="text"id="fakultas"name="fakultas"class="form-control"placeholder="FTK / 02">
+                        <input type="text"id="fakultas"name="fakultas_unit"class="form-control"placeholder="FTK / 02" value="<?= ($mode=="edit") ? $dataEdit['fakultas_unit'] : ''; ?>">
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Prodi atau Bagian</label>
-                        <input type="text"id="prodi"name="prodi"class="form-control"placeholder="PTI, PAI, dll..">
+                        <input type="text"id="prodi"name="prodi_bagian"class="form-control"placeholder="PTI, PAI, dll.." value="<?= ($mode=="edit") ? $dataEdit['prodi_bagian'] : ''; ?>">
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Email</label>
-                        <input type="email"id="email"name="email"class="form-control"placeholder="johndoe@example.com">
+                        <input type="email"id="email"name="email"class="form-control"placeholder="johndoe@example.com" value="<?= ($mode=="edit") ? $dataEdit['email'] : ''; ?>">
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">No. HP</label>
-                       <input type="tel"id="hp"name="hp"class="form-control"placeholder="081234567890">
+                       <input type="tel"id="hp"name="no_hp"class="form-control"placeholder="081234567890" value="<?= ($mode=="edit") ? $dataEdit['no_hp'] : ''; ?>">
                     </div>
 
                     <div class="col-12">
                         <label class="form-label fw-semibold">Alamat</label>
-                        <textarea id="alamat"name="alamat"class="form-control"placeholder="Jln. Syech Abdurrauf, KOPELMA Darussalam, Kec. Syiah Kuala, Kota Banda Aceh"rows="3"></textarea>
+                        <textarea id="alamat"name="alamat"class="form-control"placeholder="Jln. Syech Abdurrauf, KOPELMA Darussalam, Kec. Syiah Kuala, Kota Banda Aceh"rows="3"><?= ($mode=="edit") ? $dataEdit['alamat'] : ''; ?></textarea>
                     </div>
 
                     <div class="col-12">
                         <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-save"></i> Simpan Pengguna
+                            <i class="bi <?= ($mode=="edit") ? "bi-pencil-square" : "bi-save"; ?>"></i>
+                            <?= ($mode=="edit") ? "Update Pengguna" : "Simpan Pengguna"; ?>
                         </button>
+
                         <button type="reset" class="btn btn-light border">
                             Reset
                         </button>
@@ -186,9 +237,11 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 
                                 <td>
 
-                                    <a href="pages/edit.php?halaman=pengguna&id=<?= $pengguna['id_pengguna']; ?>"
-                                    class="btn btn-sm btn-outline-primary">
-                                    <i class="bi bi-pencil"></i> Edit
+                                    <a
+                                        href="pengguna.php?edit=<?= $pengguna['id_pengguna']; ?>"
+                                        class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-pencil"></i>
+                                        Edit
                                     </a>
 
                                     <a href="pages/hapus.php?halaman=pengguna&id=<?= $pengguna['id_pengguna']; ?>"
