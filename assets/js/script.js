@@ -630,7 +630,74 @@ document.addEventListener("DOMContentLoaded", function () {
 
 document.addEventListener("DOMContentLoaded", function () {
 
+            const form = document.getElementById("formRuangan");
 
+            if (form) {
+
+                form.addEventListener("submit", function (e) {
+
+                    let kode = document.getElementById("kode").value.trim();
+                    let nama = document.getElementById("nama").value.trim();
+                    let gedung = document.getElementById("gedung").value.trim();
+                    let lantai = document.getElementById("lantai").value.trim();
+                    let kapasitas = document.getElementById("kapasitas").value.trim();
+                    let status = document.getElementById("status").value;
+                    let fasilitas = document.getElementById("fasilitas").value.trim();
+
+                    if (kode == "") {
+                        e.preventDefault();
+                        alert("Kode ruangan tidak boleh kosong");
+                        return;
+                    }
+
+                    if (nama == "") {
+                        e.preventDefault();
+                        alert("Nama ruangan tidak boleh kosong");
+                        return;
+                    }
+
+                    if (gedung == "") {
+                        e.preventDefault();
+                        alert("Gedung tidak boleh kosong");
+                        return;
+                    }
+
+                    if (lantai == "") {
+                        e.preventDefault();
+                        alert("Lantai tidak boleh kosong");
+                        return;
+                    }
+
+                    if (kapasitas == "") {
+                        e.preventDefault();
+                        alert("Kapasitas tidak boleh kosong");
+                        return;
+                    }
+
+                    if (kapasitas <= 0) {
+                        e.preventDefault();
+                        alert("Kapasitas harus lebih dari 0");
+                        return;
+                    }
+
+                    if (status == "") {
+                        e.preventDefault();
+                        alert("Pilih status ruangan");
+                        return;
+                    }
+
+                    if (fasilitas == "") {
+                        e.preventDefault();
+                        alert("Fasilitas tidak boleh kosong");
+                        return;
+                    }
+
+                    // Kalau semua valid, biarkan form terkirim ke PHP
+                });
+
+            }
+
+        });
 
 //================ SEARCH ===================
 
@@ -712,4 +779,3 @@ form.reset();
 
 }
 
-});
