@@ -202,7 +202,10 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
                 <h5 class="section-title mb-0">Daftar Pengguna</h5>
 
                 <form action="#" method="get" class="d-flex gap-2">
-                    <input type="search" class="form-control" placeholder="Cari nama, NIM, atau NIP">
+                    <input type="search"
+                            id="searchPengguna"
+                            class="form-control"
+                            placeholder="Cari nama, NIM, atau NIP">
                     <button type="submit" class="btn btn-primary">
                         <i class="bi bi-search"></i>
                     </button>
@@ -210,7 +213,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
             </div>
 
             <div class="table-responsive">
-                <table class="table table-hover">
+                <table id="tabelPengguna" class="table table-hover">
                     <thead>
                         <tr>
                             <th>Nama</th>

@@ -240,7 +240,10 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 
             <div class="row g-3 mb-3">
                 <div class="col-md-4">
-                   <input type="search" id="searchInput" class="form-control" placeholder="nama peserta, kode reservasi/ruangan">
+                   <input type="search"
+                            id="searchReservasi"
+                            class="form-control"
+                            placeholder="Nama peserta, kode reservasi, atau ruangan">
                 </div>
                 <div class="col-md-3">
                     <select id="filterStatus" class="form-select">

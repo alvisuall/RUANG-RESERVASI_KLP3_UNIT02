@@ -228,7 +228,10 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
                 <h5 class="section-title mb-0">Daftar Ruangan</h5>
 
                 <form action="#" method="get" class="d-flex gap-2">
-                    <input type="search" id="searchInput" class="form-control" placeholder="cari nama atau mode ruangan">
+                    <input type="search"
+                            id="searchRuangan"
+                            class="form-control"
+                            placeholder="Cari nama atau kode ruangan">
                     <button type="submit" class="btn btn-primary">
                         <i class="bi bi-search"></i>
                     </button>
@@ -343,6 +346,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 
     </main>
 </div>
+<script src="assets/js/script.js"></script>
 
 </body>
 </html>
