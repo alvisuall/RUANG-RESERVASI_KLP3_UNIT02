@@ -209,12 +209,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
                         <label class="form-label fw-semibold">Catatan Admin</label>
                        <input type="text" id="catatan" name="catatan_admin" class="form-control"placeholder="Reservasi disetujui" value="<?= ($mode=="edit") ? $dataEdit['catatan_admin'] : ''; ?>">
                     </div>
-
-                    <div class="col-12">
-                        <label class="form-label fw-semibold">Keterangan Tambahan</label>
-                        <textarea id="keterangan" name="keterangan" class="form-control"placeholder="Keterangan tambahan"><?= ($mode=="edit") ? $dataEdit['keterangan'] : ''; ?></textarea>
-                    </div>
-
+                    
                     <div class="col-12">
                         <div class="alert alert-info mb-0">
                             <strong>Validasi:</strong> tanggal wajib diisi, jam mulai dan jam selesai wajib diisi, jam mulai harus lebih awal dari jam selesai, dan jumlah peserta minimal 1 orang.

@@ -171,11 +171,13 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">Email</label>
                         <input type="email"id="email"name="email"class="form-control"placeholder="johndoe@example.com" value="<?= ($mode=="edit") ? $dataEdit['email'] : ''; ?>">
+                        <small id="infoEmail" class="text-muted"></small>
                     </div>
 
                     <div class="col-md-6">
                         <label class="form-label fw-semibold">No. HP</label>
                        <input type="tel"id="hp"name="no_hp"class="form-control"placeholder="081234567890" value="<?= ($mode=="edit") ? $dataEdit['no_hp'] : ''; ?>">
+                        <small id="infoHP" class="text-muted"></small>
                     </div>
 
                     <div class="col-12">

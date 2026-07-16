@@ -299,4 +299,68 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
+        //==================================================
+    // NOMOR HP HANYA BOLEH ANGKA
+    //==================================================
+
+    const hp = document.getElementById("hp");
+
+    if (hp) {
+
+        hp.addEventListener("input", function () {
+
+            this.value = this.value.replace(/[^0-9]/g, "");
+
+        });
+
+    }
+
+        //==================================================
+    // VALIDASI EMAIL
+    //==================================================
+
+    const email = document.getElementById("email");
+    const infoEmail = document.getElementById("infoEmail");
+
+    if (email && infoEmail) {
+
+        email.addEventListener("input", function () {
+
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (this.value === "") {
+
+                infoEmail.textContent = "";
+                infoEmail.className = "";
+
+            } else if (regex.test(this.value)) {
+
+                infoEmail.textContent = "✓ Email valid";
+                infoEmail.className = "text-success";
+
+            } else {
+
+                infoEmail.textContent = "Format email tidak valid";
+                infoEmail.className = "text-danger";
+
+            }
+
+        });
+
+    }
+
+        //==================================================
+    // VALIDASI TANGGAL
+    //==================================================
+
+    const tanggal = document.getElementById("tanggal");
+
+    if (tanggal) {
+
+        const hariIni = new Date().toISOString().split("T")[0];
+
+        tanggal.min = hariIni;
+
+    }
+
 });
