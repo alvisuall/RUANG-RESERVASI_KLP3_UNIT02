@@ -1,17 +1,24 @@
 <?php
 require_once "koneksi.php";
 
-$data = mysqli_query($koneksi, "SELECT * FROM pengguna");
-
-$queryJadwal = mysqli_query($koneksi, "
-SELECT
-    reservasi_ruangan.*,
-    ruangan.nama_ruangan
+// Query untuk card jadwal
+$queryJadwalCard = mysqli_query($koneksi,"
+SELECT reservasi_ruangan.*,
+       ruangan.nama_ruangan
 FROM reservasi_ruangan
 JOIN ruangan
 ON reservasi_ruangan.id_ruangan = ruangan.id_ruangan
-WHERE reservasi_ruangan.status_reservasi = 'disetujui'
-ORDER BY reservasi_ruangan.tanggal_reservasi ASC, reservasi_ruangan.jam_mulai ASC
+ORDER BY tanggal_reservasi ASC, jam_mulai ASC
+");
+
+// Query untuk tabel jadwal
+$queryJadwalTabel = mysqli_query($koneksi,"
+SELECT reservasi_ruangan.*,
+       ruangan.nama_ruangan
+FROM reservasi_ruangan
+JOIN ruangan
+ON reservasi_ruangan.id_ruangan = ruangan.id_ruangan
+ORDER BY tanggal_reservasi ASC, jam_mulai ASC
 ");
 ?>
 
@@ -127,68 +134,81 @@ ORDER BY reservasi_ruangan.tanggal_reservasi ASC, reservasi_ruangan.jam_mulai AS
         </div>
 
         <div class="row g-4 mb-4">
-            <div class="col-md-6 col-xl-4">
-                <div class="schedule-box">
-                    <div class="schedule-date">
-                        <i class="bi bi-calendar-event text-primary me-1"></i>
-                        05 Juli 2026
-                    </div>
 
-                    <div class="schedule-item">
-                        <div class="fw-bold">Ruang Kuliah A101</div>
-                        <div class="text-muted small">08:00 - 10:00</div>
-                        <div>Diskusi Kelompok Mata Kuliah</div>
-                        <span class="badge-status badge-disetujui mt-2 d-inline-block">Disetujui</span>
-                    </div>
+            <?php
+            $tanggalSebelumnya = "";
+            while($jadwal = mysqli_fetch_assoc($queryJadwalCard)){
+                if($tanggalSebelumnya != $jadwal['tanggal_reservasi']){
+                    if($tanggalSebelumnya != ""){
+                        echo "</div></div>";
+                    }
 
-                    <div class="schedule-item">
-                        <div class="fw-bold">Ruang Seminar B205</div>
-                        <div class="text-muted small">13:00 - 15:00</div>
-                        <div>Rapat Koordinasi Dosen</div>
-                        <span class="badge-status badge-menunggu mt-2 d-inline-block">Menunggu</span>
-                    </div>
-                </div>
-            </div>
+            ?>
 
             <div class="col-md-6 col-xl-4">
                 <div class="schedule-box">
                     <div class="schedule-date">
                         <i class="bi bi-calendar-event text-primary me-1"></i>
-                        06 Juli 2026
+                        <?= date("d F Y", strtotime($jadwal['tanggal_reservasi'])); ?>
                     </div>
+                <?php
+                        $tanggalSebelumnya = $jadwal['tanggal_reservasi'];
+                    }
 
-                    <div class="schedule-item">
-                        <div class="fw-bold">Laboratorium Komputer PTI</div>
-                        <div class="text-muted small">09:00 - 12:00</div>
-                        <div>Praktikum Pemrograman Web</div>
-                        <span class="badge-status badge-menunggu mt-2 d-inline-block">Menunggu</span>
-                    </div>
+                ?>
+                        <div class="schedule-item">
+                            <div class="fw-bold">
+                                <?= $jadwal['nama_ruangan']; ?>
+                            </div>
 
-                    <div class="schedule-item">
-                        <div class="fw-bold">Ruang Kuliah A101</div>
-                        <div class="text-muted small">14:00 - 16:00</div>
-                        <div>Kuliah Tamu Teknologi Pendidikan</div>
-                        <span class="badge-status badge-disetujui mt-2 d-inline-block">Disetujui</span>
-                    </div>
-                </div>
-            </div>
+                            <div class="text-muted small">
+                                <?= substr($jadwal['jam_mulai'],0,5); ?>
+                                -
+                                <?= substr($jadwal['jam_selesai'],0,5); ?>
+                            </div>
 
-            <div class="col-md-6 col-xl-4">
-                <div class="schedule-box">
-                    <div class="schedule-date">
-                        <i class="bi bi-calendar-event text-primary me-1"></i>
-                        10 Juli 2026
-                    </div>
+                            <div>
+                                <?= $jadwal['keperluan']; ?>
+                            </div>
 
-                    <div class="schedule-item">
-                        <div class="fw-bold">Aula Utama Kampus</div>
-                        <div class="text-muted small">13:00 - 16:00</div>
-                        <div>Seminar Teknologi Pendidikan</div>
-                        <span class="badge-status badge-disetujui mt-2 d-inline-block">Disetujui</span>
-                    </div>
-                </div>
-            </div>
-        </div>
+                            <?php
+
+                            $status = strtolower($jadwal['status_reservasi']);
+
+                            if($status=="disetujui"){
+
+                                echo '<span class="badge-status badge-disetujui mt-2 d-inline-block">Disetujui</span>';
+
+                            }elseif($status=="menunggu"){
+
+                                echo '<span class="badge-status badge-menunggu mt-2 d-inline-block">Menunggu</span>';
+
+                            }elseif($status=="ditolak"){
+
+                                echo '<span class="badge-status badge-ditolak mt-2 d-inline-block">Ditolak</span>';
+
+                            }elseif($status=="selesai"){
+
+                                echo '<span class="badge-status badge-selesai mt-2 d-inline-block">Selesai</span>';
+
+                            }else{
+
+                                echo '<span class="badge-status mt-2 d-inline-block">'.$jadwal['status_reservasi'].'</span>';
+
+                            }
+
+                            ?>
+
+                        </div>
+
+                <?php } ?>
+
+                <?php
+                if($tanggalSebelumnya != ""){
+                    echo "</div></div>";
+                }
+                ?>
+</div>
 
         <div class="content-card">
             <h5 class="section-title">Tabel Jadwal Pemakaian</h5>
@@ -209,17 +229,43 @@ ORDER BY reservasi_ruangan.tanggal_reservasi ASC, reservasi_ruangan.jam_mulai AS
 
                 <tbody>
 
-                    <?php while($jadwal = mysqli_fetch_assoc($queryJadwal)){ ?>
+                    <?php while($data = mysqli_fetch_assoc($queryJadwalTabel)){ ?>
 
                     <tr>
 
-                        
-                        <td><?= $jadwal['tanggal_reservasi']; ?></td>
-                        <td><?= $jadwal['jam_mulai']; ?> - <?= $jadwal['jam_selesai']; ?></td>
-                        <td><?= $jadwal['nama_ruangan']; ?></td>
-                        <td><?= $jadwal['nama_pemesan']; ?></td>
-                        <td><?= $jadwal['keperluan']; ?></td>
-                        <td><?= $jadwal['status_reservasi']; ?></td>
+                        <td><?= date("Y-m-d", strtotime($data['tanggal_reservasi'])); ?></td>
+
+                        <td>
+                            <?= substr($data['jam_mulai'],0,5); ?>
+                            -
+                            <?= substr($data['jam_selesai'],0,5); ?>
+                        </td>
+
+                        <td><?= $data['nama_ruangan']; ?></td>
+
+                        <td><?= $data['nama_pemesan']; ?></td>
+
+                        <td><?= $data['keperluan']; ?></td>
+
+                        <td>
+                            <?php
+
+                            $status = strtolower($data['status_reservasi']);
+
+                            if($status == "disetujui"){
+                                echo '<span class="badge bg-success">Disetujui</span>';
+                            }elseif($status == "menunggu"){
+                                echo '<span class="badge bg-warning text-dark">Menunggu</span>';
+                            }elseif($status == "ditolak"){
+                                echo '<span class="badge bg-danger">Ditolak</span>';
+                            }elseif($status == "selesai"){
+                                echo '<span class="badge bg-primary">Selesai</span>';
+                            }else{
+                                echo '<span class="badge bg-secondary">'.$data['status_reservasi'].'</span>';
+                            }
+
+                            ?>
+                        </td>
 
                     </tr>
 
