@@ -1,4 +1,9 @@
 <?php
+session_start();
+if (!isset($_SESSION['id_user'])) {
+    header("Location: ../index.php");
+    exit();
+}
 require_once "../koneksi.php";
 
 if (!isset($_GET['halaman'])) {
@@ -6,6 +11,12 @@ if (!isset($_GET['halaman'])) {
 }
 
 $halaman = $_GET['halaman'];
+
+$role = $_SESSION['role'];
+if ($role == 'pengguna' && $halaman != 'reservasi') {
+    header("Location: ../home.php");
+    exit();
+}
 
 switch ($halaman) {
 

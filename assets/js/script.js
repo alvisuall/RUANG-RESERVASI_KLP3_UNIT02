@@ -338,8 +338,6 @@ if(form){
 
 form.addEventListener("submit",function(e){
 
-e.preventDefault();
-
 const nama=document.getElementById("nama").value.trim();
 const nim=document.getElementById("nim").value.trim();
 const jenis=document.getElementById("jenis").value;
@@ -350,31 +348,37 @@ const hp=document.getElementById("hp").value.trim();
 const alamat=document.getElementById("alamat").value.trim();
 
 if(nama==""){
+e.preventDefault();
 alert("Nama tidak boleh kosong");
 return;
 }
 
 if(nim==""){
+e.preventDefault();
 alert("NIM / NIP tidak boleh kosong");
 return;
 }
 
 if(jenis==""){
+e.preventDefault();
 alert("Pilih jenis pengguna");
 return;
 }
 
 if(fakultas==""){
+e.preventDefault();
 alert("Fakultas tidak boleh kosong");
 return;
 }
 
 if(prodi==""){
+e.preventDefault();
 alert("Prodi tidak boleh kosong");
 return;
 }
 
 if(email==""){
+e.preventDefault();
 alert("Email tidak boleh kosong");
 return;
 }
@@ -382,26 +386,28 @@ return;
 const emailRegex=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 if(!emailRegex.test(email)){
+e.preventDefault();
 alert("Format email salah");
 return;
 }
 
 if(hp==""){
+e.preventDefault();
 alert("Nomor HP tidak boleh kosong");
 return;
 }
 
 if(!/^[0-9]+$/.test(hp)){
+e.preventDefault();
 alert("Nomor HP hanya boleh angka");
 return;
 }
 
 if(alamat==""){
+e.preventDefault();
 alert("Alamat tidak boleh kosong");
 return;
 }
-
-alert("Data berhasil divalidasi.");
 
 });
 
@@ -488,49 +494,35 @@ document.addEventListener("DOMContentLoaded", function () {
 
         form.addEventListener("submit", function (e) {
 
-            e.preventDefault();
-
-            let nama = document.getElementById("nama").value.trim();
-            let ruangan = document.getElementById("ruangan").value;
-            let email = document.getElementById("email").value.trim();
-            let hp = document.getElementById("hp").value.trim();
-            let tanggal = document.getElementById("tanggal").value;
-            let mulai = document.getElementById("jamMulai").value;
-            let selesai = document.getElementById("jamSelesai").value;
-            let peserta = document.getElementById("peserta").value;
+            let kode = document.getElementById("kode_reservasi").value.trim();
+            let pengguna = document.getElementById("id_pengguna").value;
+            let ruangan = document.getElementById("id_ruangan").value;
+            let tanggal = document.getElementById("tanggal_reservasi").value;
+            let mulai = document.getElementById("jam_mulai").value;
+            let selesai = document.getElementById("jam_selesai").value;
+            let peserta = document.getElementById("jumlah_peserta").value;
             let keperluan = document.getElementById("keperluan").value.trim();
 
-            if (nama == "" || ruangan == "" || email == "" || hp == "" ||
+            if (kode == "" || pengguna == "" || ruangan == "" ||
                 tanggal == "" || mulai == "" || selesai == "" ||
                 peserta == "" || keperluan == "") {
 
+                e.preventDefault();
                 alert("Semua data wajib diisi.");
                 return;
             }
 
-            let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-            if (!emailRegex.test(email)) {
-                alert("Format email salah.");
-                return;
-            }
-
-            if (!/^[0-9]+$/.test(hp)) {
-                alert("Nomor HP hanya boleh angka.");
-                return;
-            }
-
             if (mulai >= selesai) {
+                e.preventDefault();
                 alert("Jam mulai harus lebih kecil dari jam selesai.");
                 return;
             }
 
             if (parseInt(peserta) < 1) {
+                e.preventDefault();
                 alert("Jumlah peserta minimal 1.");
                 return;
             }
-
-            alert("Reservasi berhasil divalidasi.");
         });
 
     }
@@ -778,4 +770,227 @@ form.reset();
 });
 
 }
+
+//==============================
+// DARK MODE
+//==============================
+(function() {
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+    } else {
+        document.body.classList.remove('dark-mode');
+    }
+    
+    document.addEventListener("DOMContentLoaded", function() {
+        const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+        if (toggleSwitch) {
+            if (currentTheme === 'dark') {
+                toggleSwitch.checked = true;
+            }
+            toggleSwitch.addEventListener('change', function(e) {
+                if (e.target.checked) {
+                    document.body.classList.add('dark-mode');
+                    localStorage.setItem('theme', 'dark');
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    localStorage.setItem('theme', 'light');
+                }
+            });
+        }
+    });
+})();
+
+//==============================
+// COMBINED FILTER FOR TABLES
+//==============================
+document.addEventListener("DOMContentLoaded", function() {
+    const btnFilter = document.getElementById("btnFilter");
+    const searchInput = document.getElementById("searchInput");
+    const filterStatus = document.getElementById("filterStatus");
+    const filterTanggal = document.getElementById("filterTanggal");
+    
+    if (btnFilter || searchInput || filterStatus || filterTanggal) {
+        const performFilter = function() {
+            const keyword = searchInput ? searchInput.value.toLowerCase() : "";
+            const status = filterStatus ? filterStatus.value.toLowerCase() : "";
+            const tanggal = filterTanggal ? filterTanggal.value : "";
+            
+            const rows = document.querySelectorAll("#tabelReservasi tbody tr, #tabelJadwal tbody tr");
+            rows.forEach(function(row) {
+                const text = row.innerText.toLowerCase();
+                let show = true;
+                
+                if (keyword !== "" && !text.includes(keyword)) {
+                    show = false;
+                }
+                
+                if (status !== "" && status !== "semua status" && !text.includes(status)) {
+                    show = false;
+                }
+                
+                if (tanggal !== "") {
+                    const dateObj = new Date(tanggal);
+                    const months = ["januari","februari","maret","april","mei","juni","juli","agustus","september","oktober","november","desember"];
+                    const indDate = String(dateObj.getDate()).padStart(2, '0') + " " + months[dateObj.getMonth()] + " " + dateObj.getFullYear();
+                    
+                    if (!text.includes(indDate) && !text.includes(tanggal)) {
+                        show = false;
+                    }
+                }
+                
+                row.style.display = show ? "" : "none";
+            });
+        };
+        
+        if (btnFilter) {
+            btnFilter.addEventListener("click", function(e) {
+                e.preventDefault();
+                performFilter();
+            });
+        }
+        
+        if (searchInput) {
+            searchInput.addEventListener("keyup", performFilter);
+        }
+        
+        if (filterStatus) {
+            filterStatus.addEventListener("change", performFilter);
+        }
+        
+        if (filterTanggal) {
+            filterTanggal.addEventListener("change", performFilter);
+        }
+    }
+});
+
+//=======================================
+// CUSTOM POPUP MODAL (ALERT & CONFIRM)
+//=======================================
+function showCustomAlert(title, message) {
+    let modal = document.getElementById("custom-alert-modal");
+    if (!modal) {
+        modal = document.createElement("div");
+        modal.id = "custom-alert-modal";
+        modal.className = "custom-modal-overlay";
+        modal.innerHTML = `
+            <div class="custom-modal-box">
+                <div class="custom-modal-icon">
+                    <i class="bi bi-info-circle-fill"></i>
+                </div>
+                <h4 class="custom-modal-title"></h4>
+                <p class="custom-modal-text"></p>
+                <div class="custom-modal-actions">
+                    <button class="btn btn-primary w-100 btn-modal-ok">OK</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        
+        modal.querySelector(".btn-modal-ok").addEventListener("click", function() {
+            modal.classList.remove("active");
+        });
+    }
+    
+    modal.querySelector(".custom-modal-title").innerText = title;
+    modal.querySelector(".custom-modal-text").innerText = message;
+    
+    setTimeout(() => {
+        modal.classList.add("active");
+    }, 50);
+}
+
+function showCustomConfirm(title, message, onConfirm) {
+    let modal = document.getElementById("custom-confirm-modal");
+    if (!modal) {
+        modal = document.createElement("div");
+        modal.id = "custom-confirm-modal";
+        modal.className = "custom-modal-overlay";
+        modal.innerHTML = `
+            <div class="custom-modal-box">
+                <div class="custom-modal-icon text-warning">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                </div>
+                <h4 class="custom-modal-title"></h4>
+                <p class="custom-modal-text"></p>
+                <div class="custom-modal-actions d-flex gap-2">
+                    <button class="btn btn-primary flex-grow-1 btn-modal-confirm">Ya, Lanjutkan</button>
+                    <button class="btn btn-light border flex-grow-1 btn-modal-cancel">Batal</button>
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+    
+    modal.querySelector(".custom-modal-title").innerText = title;
+    modal.querySelector(".custom-modal-text").innerText = message;
+    
+    const btnConfirm = modal.querySelector(".btn-modal-confirm");
+    const btnCancel = modal.querySelector(".btn-modal-cancel");
+    
+    const newBtnConfirm = btnConfirm.cloneNode(true);
+    const newBtnCancel = btnCancel.cloneNode(true);
+    
+    btnConfirm.parentNode.replaceChild(newBtnConfirm, btnConfirm);
+    btnCancel.parentNode.replaceChild(newBtnCancel, btnCancel);
+    
+    newBtnConfirm.addEventListener("click", function() {
+        modal.classList.remove("active");
+        if (onConfirm) onConfirm();
+    });
+    
+    newBtnCancel.addEventListener("click", function() {
+        modal.classList.remove("active");
+    });
+    
+    setTimeout(() => {
+        modal.classList.add("active");
+    }, 50);
+}
+
+// Override native alert dialog
+window.alert = function(message) {
+    showCustomAlert("Pemberitahuan", message);
+};
+
+// Global confirm click interceptor
+document.addEventListener("click", function(e) {
+    const target = e.target.closest("[onclick], a, button");
+    if (!target) return;
+    
+    const onClickAttr = target.getAttribute("onclick");
+    const isConfirm = onClickAttr && onClickAttr.includes("confirm(");
+    const isLogout = target.getAttribute("href") && target.getAttribute("href").includes("logout.php");
+    
+    if (isConfirm || isLogout) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        let message = "Apakah Anda yakin ingin melanjutkan?";
+        if (isConfirm) {
+            const match = onClickAttr.match(/confirm\(['"](.*?)['"]\)/);
+            if (match && match[1]) {
+                message = match[1];
+            }
+        } else if (isLogout) {
+            message = "Apakah Anda yakin ingin logout dari sistem?";
+        }
+        
+        showCustomConfirm("Konfirmasi Aksi", message, function() {
+            if (target.getAttribute("href")) {
+                window.location.href = target.getAttribute("href");
+            } else {
+                const form = target.closest("form");
+                if (form) {
+                    form.submit();
+                } else if (onClickAttr) {
+                    const cleanJs = onClickAttr.replace(/return\s+confirm\(.*?\);?/, "");
+                    if (cleanJs.trim()) {
+                        eval(cleanJs);
+                    }
+                }
+            }
+        });
+    }
+}, true);
 

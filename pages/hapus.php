@@ -1,8 +1,19 @@
 <?php
+session_start();
+if (!isset($_SESSION['id_user'])) {
+    header("Location: ../index.php");
+    exit();
+}
 require_once "../koneksi.php";
 
 if (!isset($_GET['halaman']) || !isset($_GET['id'])) {
     die("Parameter tidak lengkap.");
+}
+
+$role = $_SESSION['role'];
+if ($role == 'pengguna') {
+    header("Location: ../home.php");
+    exit();
 }
 
 $halaman = $_GET['halaman'];

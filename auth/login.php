@@ -48,6 +48,7 @@ if (mysqli_num_rows($result) == 1) {
         $_SESSION['nama'] = $data['nama_lengkap'];
         $_SESSION['username'] = $data['username'];
         $_SESSION['role'] = $data['role'];
+        $_SESSION['email'] = $data['email'];
 
         // Mengarahkan user sesuai role
         if ($data['role'] == "admin") {
@@ -56,7 +57,7 @@ if (mysqli_num_rows($result) == 1) {
 
         } elseif ($data['role'] == "petugas") {
 
-            header("Location:home.php");
+            header("Location: ../home.php");
 
         } else {
 
