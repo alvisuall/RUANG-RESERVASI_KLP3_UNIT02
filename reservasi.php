@@ -6,9 +6,22 @@ if (!isset($_SESSION['id_user'])) {
 }
 require_once "koneksi.php";
 
-<<<<<<< HEAD
 $role = $_SESSION['role'];
-$id_pengguna = getCurrentPenggunaId($koneksi);
+$id_pengguna = null;
+if ($role == 'pengguna') {
+    $id_pengguna = getCurrentPenggunaId($koneksi);
+}
+
+$mode = "tambah";
+$dataEdit = [];
+
+if (isset($_GET['edit'])) {
+    $mode = "edit";
+    $id = (int)$_GET['edit'];
+    $queryEdit = mysqli_query($koneksi,
+        "SELECT * FROM reservasi_ruangan WHERE id_reservasi = $id");
+    $dataEdit = mysqli_fetch_assoc($queryEdit);
+}
 
 if ($role == 'pengguna') {
     // Pengguna biasa hanya melihat data miliknya sendiri
@@ -39,30 +52,7 @@ function formatTanggalIndo($tanggal) {
     if(count($split) !== 3) return $tanggal;
     return $split[2] . ' ' . $bulan[(int)$split[1]] . ' ' . $split[0];
 }
-=======
-$mode = "tambah";
-$dataEdit = [];
-
-if (isset($_GET['edit'])) {
-
-    $mode = "edit";
-    $id = (int)$_GET['edit'];
-
-    $queryEdit = mysqli_query($koneksi,
-        "SELECT * FROM reservasi_ruangan WHERE id_reservasi = $id");
-
-    $dataEdit = mysqli_fetch_assoc($queryEdit);
-}
-
-$queryReservasi = mysqli_query($koneksi,
-    "SELECT reservasi_ruangan.*, ruangan.nama_ruangan
-    FROM reservasi_ruangan
-    JOIN ruangan
-    ON reservasi_ruangan.id_ruangan = ruangan.id_ruangan");
-$data = mysqli_query($koneksi, "SELECT * FROM pengguna");
->>>>>>> 71f784bdf2045fdd685b663878ac4a9ecf8a488a
 ?>
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -152,41 +142,19 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
             </div>
         <?php endif; ?>
 
-<<<<<<< HEAD
         <div class="content-card">
-            <h5 class="section-title">Input Reservasi Ruangan</h5>
-            <form id="formReservasi" action="pages/tambah.php?halaman=reservasi" method="POST">
-=======
-    <div class="content-card">
-        <h5 class="section-title">
-            <?= ($mode=="edit") ? "Form Edit Reservasi" : "Input Reservasi Ruangan"; ?>
-        </h5>
-
-           <form id="formReservasi"
-                action="<?= ($mode=="edit") ? "pages/edit.php" : "pages/tambah.php"; ?>"
-                method="POST">
-
+            <h5 class="section-title"><?= ($mode == "edit") ? "Form Edit Reservasi" : "Input Reservasi Ruangan"; ?></h5>
+            <form id="formReservasi" action="<?= ($mode == "edit") ? "pages/edit.php" : "pages/tambah.php?halaman=reservasi"; ?>" method="POST">
                 <input type="hidden" name="halaman" value="reservasi">
-                    <?php if($mode=="edit"){ ?>
+                <?php if ($mode == "edit") : ?>
                     <input type="hidden" name="id_reservasi" value="<?= $dataEdit['id_reservasi']; ?>">
-                    <?php } ?>
+                <?php endif; ?>
 
->>>>>>> 71f784bdf2045fdd685b663878ac4a9ecf8a488a
                 <div class="row g-3">
                     <!-- Kode Reservasi -->
                     <div class="col-md-4">
                         <label class="form-label fw-semibold">Kode Reservasi</label>
-<<<<<<< HEAD
-                        <input type="text" id="kode_reservasi" name="kode_reservasi" class="form-control" value="RSV-<?= date('Ymd') ?>-<?= rand(100, 999) ?>" readonly required>
-=======
-                       <input
-                        type="text"
-                        id="kode"
-                        name="kode_reservasi"
-                        class="form-control"
-                        placeholder="RSV-2026-004"
-                        value="<?= ($mode=="edit") ? $dataEdit['kode_reservasi'] : ''; ?>">
->>>>>>> 71f784bdf2045fdd685b663878ac4a9ecf8a488a
+                        <input type="text" id="kode_reservasi" name="kode_reservasi" class="form-control" value="<?= ($mode == "edit") ? htmlspecialchars($dataEdit['kode_reservasi']) : 'RSV-' . date('Ymd') . '-' . rand(100, 999); ?>" readonly required>
                     </div>
 
                     <?php if ($role == 'pengguna') : ?>
@@ -194,7 +162,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
                         <div class="col-md-8">
                             <label class="form-label fw-semibold">Nama Pemesan</label>
                             <input type="text" class="form-control text-muted" value="<?= htmlspecialchars($_SESSION['nama']); ?> (<?= htmlspecialchars($_SESSION['email']); ?>)" readonly>
-                            <input type="hidden" id="id_pengguna" name="id_pengguna" value="<?= $id_pengguna; ?>">
+                            <input type="hidden" id="id_pengguna" name="id_pengguna" value="<?= ($mode == "edit") ? htmlspecialchars($dataEdit['id_pengguna']) : $id_pengguna; ?>">
                         </div>
                     <?php else : ?>
                         <!-- Pilih Pengguna (Admin/Petugas) -->
@@ -206,7 +174,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
                                 $pengguna = mysqli_query($koneksi, "SELECT * FROM pengguna ORDER BY nama_lengkap ASC");
                                 while($p=mysqli_fetch_assoc($pengguna)){
                                 ?>
-                                <option value="<?= $p['id_pengguna']; ?>">
+                                <option value="<?= $p['id_pengguna']; ?>" <?= ($mode == "edit" && $p['id_pengguna'] == $dataEdit['id_pengguna']) ? "selected" : ""; ?>>
                                     <?= htmlspecialchars($p['nama_lengkap']); ?> (<?= htmlspecialchars($p['nim_nip']); ?>)
                                 </option>
                                 <?php } ?>
@@ -217,138 +185,60 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
                     <!-- Pilih Ruangan -->
                     <div class="col-md-12">
                         <label class="form-label fw-semibold">Pilih Ruangan</label>
-<<<<<<< HEAD
                         <select id="id_ruangan" name="id_ruangan" class="form-select" required>
                             <option value="">Pilih Ruangan</option>
                             <?php
                             $ruangan = mysqli_query($koneksi, "SELECT * FROM ruangan WHERE status_ruangan='tersedia' ORDER BY nama_ruangan");
                             while($r=mysqli_fetch_assoc($ruangan)){
                             ?>
-                            <option value="<?= $r['id_ruangan']; ?>">
+                            <option value="<?= $r['id_ruangan']; ?>" <?= ($mode == "edit" && $r['id_ruangan'] == $dataEdit['id_ruangan']) ? "selected" : ""; ?>>
                                 <?= htmlspecialchars($r['nama_ruangan']); ?> | <?= htmlspecialchars($r['gedung']); ?> | Kapasitas <?= $r['kapasitas']; ?> orang
                             </option>
-=======
-                        <select name="id_ruangan" id="ruangan" class="form-select">
-
-                            <option value="">Pilih ruangan</option>
-                            <?php
-                            $queryRuangan=mysqli_query($koneksi,"SELECT * FROM ruangan");
-                            while($ruangan=mysqli_fetch_assoc($queryRuangan)){
-                            ?>
-
-                            <option
-                            value="<?= $ruangan['id_ruangan']; ?>"
-                            <?= ($mode=="edit" && $ruangan['id_ruangan']==$dataEdit['id_ruangan']) ? "selected" : ""; ?>>
-                            <?= $ruangan['nama_ruangan']; ?> - Kapasitas <?= $ruangan['kapasitas']; ?>
-                            </option>
-
->>>>>>> 71f784bdf2045fdd685b663878ac4a9ecf8a488a
                             <?php } ?>
                         </select>
                     </div>
 
-<<<<<<< HEAD
                     <!-- Tanggal -->
                     <div class="col-md-4">
                         <label class="form-label fw-semibold">Tanggal Reservasi</label>
-                        <input type="date" id="tanggal_reservasi" name="tanggal_reservasi" class="form-control" required>
-=======
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold">Nama Pemesan</label>
-                        <input
-                        type="text"
-                        id="nama"
-                        name="nama_pemesan"
-                        class="form-control"
-                        placeholder="John Doe"
-                        value="<?= ($mode=="edit") ? $dataEdit['nama_pemesan'] : ''; ?>">
-                    </div>
-
-                    <div class="col-md-3">
-                        <label class="form-label fw-semibold">Email</label>
-                       <input type="email" id="email" name="email_pemesan" class="form-control" placeholder="johndoe@example.com" value="<?= ($mode=="edit") ? $dataEdit['email_pemesan'] : ''; ?>">
-                    </div>
-
-                    <div class="col-md-3">
-                        <label class="form-label fw-semibold">No. HP</label>
-                        <input type="tel" id="hp" name="no_hp" class="form-control" placeholder="081234567890" value="<?= ($mode=="edit") ? $dataEdit['no_hp'] : ''; ?>">
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="form-label fw-semibold">Tanggal Reservasi</label>
-                       <input type="date" id="tanggal" name="tanggal_reservasi" class="form-control" placeholder="2023-10-10" value="<?= ($mode=="edit") ? $dataEdit['tanggal_reservasi'] : ''; ?>">
->>>>>>> 71f784bdf2045fdd685b663878ac4a9ecf8a488a
+                        <input type="date" id="tanggal_reservasi" name="tanggal_reservasi" class="form-control" value="<?= ($mode == "edit") ? htmlspecialchars($dataEdit['tanggal_reservasi']) : ''; ?>" required>
                     </div>
 
                     <!-- Jam Mulai -->
                     <div class="col-md-4">
                         <label class="form-label fw-semibold">Jam Mulai</label>
-<<<<<<< HEAD
-                        <input type="time" id="jam_mulai" name="jam_mulai" class="form-control" required>
-=======
-                        <input type="time" id="jamMulai" name="jam_mulai" class="form-control"placeholder=" 09:00" value="<?= ($mode=="edit") ? $dataEdit['jam_mulai'] : ''; ?>">
->>>>>>> 71f784bdf2045fdd685b663878ac4a9ecf8a488a
+                        <input type="time" id="jam_mulai" name="jam_mulai" class="form-control" value="<?= ($mode == "edit") ? htmlspecialchars($dataEdit['jam_mulai']) : ''; ?>" required>
                     </div>
 
                     <!-- Jam Selesai -->
                     <div class="col-md-4">
                         <label class="form-label fw-semibold">Jam Selesai</label>
-<<<<<<< HEAD
-                        <input type="time" id="jam_selesai" name="jam_selesai" class="form-control" required>
-=======
-                        <input type="time" id="jamSelesai" name="jam_selesai" class="form-control"placeholder="11:00" value="<?= ($mode=="edit") ? $dataEdit['jam_selesai'] : ''; ?>">
->>>>>>> 71f784bdf2045fdd685b663878ac4a9ecf8a488a
+                        <input type="time" id="jam_selesai" name="jam_selesai" class="form-control" value="<?= ($mode == "edit") ? htmlspecialchars($dataEdit['jam_selesai']) : ''; ?>" required>
                     </div>
 
                     <!-- Keperluan -->
                     <div class="col-md-8">
                         <label class="form-label fw-semibold">Keperluan</label>
-<<<<<<< HEAD
-                        <input type="text" id="keperluan" name="keperluan" class="form-control" placeholder="Contoh : Seminar, Rapat, Kuliah Umum" required>
-=======
-                       <input type="text" id="keperluan" name="keperluan" class="form-control"placeholder="Pertemuan dengan dosen" value="<?= ($mode=="edit") ? $dataEdit['keperluan'] : ''; ?>">
->>>>>>> 71f784bdf2045fdd685b663878ac4a9ecf8a488a
+                        <input type="text" id="keperluan" name="keperluan" class="form-control" placeholder="Contoh : Seminar, Rapat, Kuliah Umum" value="<?= ($mode == "edit") ? htmlspecialchars($dataEdit['keperluan']) : ''; ?>" required>
                     </div>
 
                     <!-- Jumlah Peserta -->
                     <div class="col-md-4">
                         <label class="form-label fw-semibold">Jumlah Peserta</label>
-<<<<<<< HEAD
-                        <input type="number" id="jumlah_peserta" name="jumlah_peserta" class="form-control" min="1" placeholder="20" required>
+                        <input type="number" id="jumlah_peserta" name="jumlah_peserta" class="form-control" min="1" placeholder="20" value="<?= ($mode == "edit") ? htmlspecialchars($dataEdit['jumlah_peserta']) : ''; ?>" required>
                     </div>
 
                     <!-- Keterangan -->
                     <div class="col-12">
                         <label class="form-label fw-semibold">Keterangan Tambahan</label>
-                        <textarea name="keterangan" class="form-control" rows="3" placeholder="Masukkan keterangan tambahan (opsional)"></textarea>
+                        <textarea name="keterangan" class="form-control" rows="3" placeholder="Masukkan keterangan tambahan (opsional)"><?= ($mode == "edit") ? htmlspecialchars($dataEdit['keterangan']) : ''; ?></textarea>
                     </div>
 
-                    <!-- Hidden -->
-                    <input type="hidden" name="status_reservasi" value="menunggu">
-                    <input type="hidden" name="catatan_admin" value="-">
+                    <!-- Hidden fields for status & admin notes -->
+                    <input type="hidden" name="status_reservasi" value="<?= ($mode == "edit") ? htmlspecialchars($dataEdit['status_reservasi']) : 'menunggu'; ?>">
+                    <input type="hidden" name="catatan_admin" value="<?= ($mode == "edit") ? htmlspecialchars($dataEdit['catatan_admin']) : '-'; ?>">
 
                     <!-- Informasi -->
-=======
-                        <input type="number" id="peserta" name="jumlah_peserta" class="form-control"placeholder=" 20" value="<?= ($mode=="edit") ? $dataEdit['jumlah_peserta'] : ''; ?>">
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold">Status Reservasi</label>
-                        <select id="status" name="status_reservasi" class="form-select">
-                            <option value="menunggu" <?= ($mode=="edit" && $dataEdit['status_reservasi'] == 'menunggu') ? 'selected' : ''; ?>>Menunggu</option>
-                            <option value="disetujui" <?= ($mode=="edit" && $dataEdit['status_reservasi'] == 'disetujui') ? 'selected' : ''; ?>>Disetujui</option>
-                            <option value="ditolak" <?= ($mode=="edit" && $dataEdit['status_reservasi'] == 'ditolak') ? 'selected' : ''; ?>>Ditolak</option>
-                            <option value="selesai" <?= ($mode=="edit" && $dataEdit['status_reservasi'] == 'selesai') ? 'selected' : ''; ?>>Selesai</option>
-                            <option value="dibatalkan" <?= ($mode=="edit" && $dataEdit['status_reservasi'] == 'dibatalkan') ? 'selected' : ''; ?>>Dibatalkan</option>
-                        </select>
-                    </div>
-
-                    <div class="col-md-6">
-                        <label class="form-label fw-semibold">Catatan Admin</label>
-                       <input type="text" id="catatan" name="catatan_admin" class="form-control"placeholder="Reservasi disetujui" value="<?= ($mode=="edit") ? $dataEdit['catatan_admin'] : ''; ?>">
-                    </div>
-                    
->>>>>>> 71f784bdf2045fdd685b663878ac4a9ecf8a488a
                     <div class="col-12">
                         <div class="alert alert-info">
                             <strong>Informasi :</strong> Setelah reservasi dikirim, status akan menjadi <strong>Menunggu</strong> dan akan diverifikasi oleh Administrator.
@@ -357,21 +247,15 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 
                     <!-- Tombol -->
                     <div class="col-12">
-<<<<<<< HEAD
                         <button type="submit" name="simpan" class="btn btn-primary me-2">
-                            <i class="bi bi-send"></i> Ajukan Reservasi
+                            <i class="bi <?= ($mode == "edit") ? "bi-pencil-square" : "bi-send"; ?>"></i> 
+                            <?= ($mode == "edit") ? "Update Reservasi" : "Ajukan Reservasi"; ?>
                         </button>
-                        <button type="reset" class="btn btn-light border">Reset</button>
-=======
-                       <button type="submit" class="btn btn-primary">
-                            <i class="bi <?= ($mode=="edit") ? "bi-pencil-square" : "bi-send"; ?>"></i>
-                            <?= ($mode=="edit") ? "Update Reservasi" : "Ajukan Reservasi"; ?>
-                        </button>
-                        
-                        <button type="reset" class="btn btn-light border">
-                            Reset
-                        </button>
->>>>>>> 71f784bdf2045fdd685b663878ac4a9ecf8a488a
+                        <?php if ($mode == "edit") : ?>
+                            <a href="reservasi.php" class="btn btn-light border">Batal</a>
+                        <?php else : ?>
+                            <button type="reset" class="btn btn-light border">Reset</button>
+                        <?php endif; ?>
                     </div>
                 </div>
             </form>
@@ -382,14 +266,7 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
 
             <div class="row g-3 mb-3">
                 <div class="col-md-4">
-<<<<<<< HEAD
                    <input type="search" id="searchInput" class="form-control" placeholder="Cari nama, kode, atau status...">
-=======
-                   <input type="search"
-                            id="searchReservasi"
-                            class="form-control"
-                            placeholder="Nama peserta, kode reservasi, atau ruangan">
->>>>>>> 71f784bdf2045fdd685b663878ac4a9ecf8a488a
                 </div>
                 <div class="col-md-3">
                     <select id="filterStatus" class="form-select">
@@ -443,9 +320,8 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
                                 } elseif ($status == 'dibatalkan') {
                                     $badgeClass = 'badge-dibatalkan';
                                 }
-<<<<<<< HEAD
                             ?>
-                            <tr>
+                            <tr class="<?= 'table-' . ($status == 'disetujui' ? 'success' : ($status == 'menunggu' ? 'info' : ($status == 'ditolak' ? 'danger' : ($status == 'selesai' ? 'light' : 'warning')))); ?>">
                                 <td class="fw-bold"><?= htmlspecialchars($reservasi_ruangan['kode_reservasi']); ?></td>
                                 <td><?= htmlspecialchars($reservasi_ruangan['nama_pemesan']); ?></td>
                                 <td><?= htmlspecialchars($reservasi_ruangan['nama_ruangan']); ?></td>
@@ -476,29 +352,6 @@ $data = mysqli_query($koneksi, "SELECT * FROM pengguna");
                                 <td colspan="<?= ($role == 'admin' || $role == 'petugas') ? 8 : 7; ?>" class="text-muted py-4">Belum ada pengajuan reservasi.</td>
                             </tr>
                         <?php endif; ?>
-=======
-                                ?>
-                            </td>
-
-                            <td>
-                                <a href="reservasi.php?edit=<?= $reservasi_ruangan['id_reservasi']; ?>"
-                                class="btn btn-sm btn-outline-primary">
-                                    <i class="bi bi-pencil"></i> Edit
-                                </a>
-
-                                <a href="pages/hapus.php?halaman=reservasi&id=<?= $reservasi_ruangan['id_reservasi']; ?>"
-                                class="btn btn-sm btn-outline-danger"
-                                onclick="return confirm('Yakin ingin menghapus data ini?');">
-                                    <i class="bi bi-trash"></i> Hapus
-                                </a>
-                            </td>
-
-                        </tr>
-
-                        <?php } 
-                        ?>
-
->>>>>>> 71f784bdf2045fdd685b663878ac4a9ecf8a488a
                     </tbody>
                 </table>
             </div>

@@ -6,21 +6,7 @@ if (!isset($_SESSION['id_user'])) {
 }
 require_once "koneksi.php";
 
-<<<<<<< HEAD
 $role = $_SESSION['role'];
-=======
-$queryReservasiTerbaru = mysqli_query($koneksi, "
-SELECT reservasi_ruangan.*,
-       ruangan.nama_ruangan
-FROM reservasi_ruangan
-JOIN ruangan
-ON reservasi_ruangan.id_ruangan = ruangan.id_ruangan
-ORDER BY reservasi_ruangan.created_at DESC
-LIMIT 5
-");
-
-$data = mysqli_query($koneksi, "SELECT * FROM pengguna");
->>>>>>> 71f784bdf2045fdd685b663878ac4a9ecf8a488a
 
 if ($role == 'pengguna') {
     $id_pengguna = getCurrentPenggunaId($koneksi);

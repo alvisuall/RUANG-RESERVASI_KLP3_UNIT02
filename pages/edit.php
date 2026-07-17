@@ -6,75 +6,21 @@ if (!isset($_SESSION['id_user'])) {
 }
 require_once "../koneksi.php";
 
-<<<<<<< HEAD
 $role = $_SESSION['role'];
 if ($role == 'pengguna') {
     header("Location: ../home.php");
     exit();
 }
 
-if (!isset($_GET['halaman']) || !isset($_GET['id'])) {
-    die("Parameter tidak lengkap.");
-}
-
-$halaman = $_GET['halaman'];
-$id = (int)$_GET['id'];
 $error_msg = '';
-=======
+
+// Handle POST request (saving edits)
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-    $halaman = $_POST['halaman'];
->>>>>>> 71f784bdf2045fdd685b663878ac4a9ecf8a488a
-
+    $halaman = isset($_POST['halaman']) ? $_POST['halaman'] : (isset($_GET['halaman']) ? $_GET['halaman'] : '');
+    
     switch ($halaman) {
-
-<<<<<<< HEAD
-    case "ruangan":
-        $stmt = mysqli_prepare($koneksi, "SELECT * FROM ruangan WHERE id_ruangan = ?");
-        mysqli_stmt_bind_param($stmt, "i", $id);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-        $data = mysqli_fetch_assoc($result);
-
-        if (!$data) {
-            die("Data ruangan tidak ditemukan.");
-        }
-=======
-        // ==========================
-        // EDIT RUANGAN
-        // ==========================
-
         case "ruangan":
-
-            $sql = "UPDATE ruangan SET
-                        kode_ruangan=?,
-                        nama_ruangan=?,
-                        gedung=?,
-                        lantai=?,
-                        kapasitas=?,
-                        status_ruangan=?,
-                        fasilitas=?
-                    WHERE id_ruangan=?";
-
-            $stmt = mysqli_prepare($koneksi, $sql);
-
-            mysqli_stmt_bind_param(
-                $stmt,
-                "ssssissi",
-                $_POST['kode_ruangan'],
-                $_POST['nama_ruangan'],
-                $_POST['gedung'],
-                $_POST['lantai'],
-                $_POST['kapasitas'],
-                $_POST['status_ruangan'],
-                $_POST['fasilitas'],
-                $_POST['id_ruangan']
-            );
-
-            $redirect = "../ruangan.php";
->>>>>>> 71f784bdf2045fdd685b663878ac4a9ecf8a488a
-
-        if (isset($_POST['simpan'])) {
+            $id = isset($_POST['id_ruangan']) ? (int)$_POST['id_ruangan'] : (isset($_GET['id']) ? (int)$_GET['id'] : 0);
             $kode = trim($_POST['kode_ruangan']);
             $nama = trim($_POST['nama_ruangan']);
             $gedung = trim($_POST['gedung']);
@@ -82,45 +28,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $kapasitas = (int)$_POST['kapasitas'];
             $fasilitas = trim($_POST['fasilitas']);
             $status = trim($_POST['status_ruangan']);
-
+            
             if (empty($kode) || empty($nama) || empty($gedung) || empty($lantai) || empty($kapasitas) || empty($fasilitas) || empty($status)) {
-                $error_msg = "Semua data wajib diisi!";
-            } else {
-                $update = mysqli_prepare($koneksi,
-                "UPDATE ruangan
-                SET kode_ruangan=?,
-                    nama_ruangan=?,
-                    gedung=?,
-                    lantai=?,
-                    kapasitas=?,
-                    fasilitas=?,
-                    status_ruangan=?
-                WHERE id_ruangan=?");
-
-                mysqli_stmt_bind_param($update, "ssssissi", $kode, $nama, $gedung, $lantai, $kapasitas, $fasilitas, $status, $id);
-
-                if(mysqli_stmt_execute($update)){
-                    header("Location: ../ruangan.php?success=edit");
-                    exit();
-                }else{
-                    $error_msg = "Gagal mengubah data ruangan.";
-                }
+                echo "<script>alert('Semua data wajib diisi!'); history.back();</script>";
+                exit;
             }
-        }
-        break;
-
-    case "pengguna":
-        $stmt = mysqli_prepare($koneksi, "SELECT * FROM pengguna WHERE id_pengguna = ?");
-        mysqli_stmt_bind_param($stmt, "i", $id);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-        $data = mysqli_fetch_assoc($result);
-
-        if (!$data) {
-            die("Data pengguna tidak ditemukan.");
-        }
-
-        if (isset($_POST['simpan'])) {
+            
+            $update = mysqli_prepare($koneksi, "UPDATE ruangan SET kode_ruangan=?, nama_ruangan=?, gedung=?, lantai=?, kapasitas=?, fasilitas=?, status_ruangan=? WHERE id_ruangan=?");
+            mysqli_stmt_bind_param($update, "ssssissi", $kode, $nama, $gedung, $lantai, $kapasitas, $fasilitas, $status, $id);
+            if (mysqli_stmt_execute($update)) {
+                header("Location: ../ruangan.php?success=edit");
+                exit();
+            } else {
+                echo "<script>alert('Gagal mengubah data ruangan.'); history.back();</script>";
+                exit;
+            }
+            break;
+            
+        case "pengguna":
+            $id = isset($_POST['id_pengguna']) ? (int)$_POST['id_pengguna'] : (isset($_GET['id']) ? (int)$_GET['id'] : 0);
             $nama = trim($_POST['nama_lengkap']);
             $nim = trim($_POST['nim_nip']);
             $jenis = trim($_POST['jenis_pengguna']);
@@ -129,254 +55,136 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $email = trim($_POST['email']);
             $hp = trim($_POST['no_hp']);
             $alamat = trim($_POST['alamat']);
-
+            
             if (empty($nama) || empty($nim) || empty($jenis) || empty($fakultas) || empty($prodi) || empty($email) || empty($hp) || empty($alamat)) {
-                $error_msg = "Semua data wajib diisi!";
-            } else {
-                $update = mysqli_prepare($koneksi,
-                "UPDATE pengguna
-                SET nama_lengkap=?,
-                    nim_nip=?,
-                    jenis_pengguna=?,
-                    fakultas_unit=?,
-                    prodi_bagian=?,
-                    email=?,
-                    no_hp=?,
-                    alamat=?
-                WHERE id_pengguna=?");
-
-                mysqli_stmt_bind_param($update, "ssssssssi", $nama, $nim, $jenis, $fakultas, $prodi, $email, $hp, $alamat, $id);
-
-                if(mysqli_stmt_execute($update)){
-                    header("Location: ../pengguna.php?success=edit");
-                    exit();
-                }else{
-                    $error_msg = "Gagal mengubah data pengguna.";
-                }
+                echo "<script>alert('Semua data wajib diisi!'); history.back();</script>";
+                exit;
             }
-        }
-        break;
-
-    case "reservasi":
-        $stmt = mysqli_prepare($koneksi, "SELECT * FROM reservasi_ruangan WHERE id_reservasi = ?");
-        mysqli_stmt_bind_param($stmt, "i", $id);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
-        $data = mysqli_fetch_assoc($result);
-
-        if (!$data) {
-            die("Data reservasi tidak ditemukan.");
-        }
-
-        if (isset($_POST['simpan'])) {
-            $kode = trim($_POST['kode_reservasi']);
-            $id_pengguna_input = (int)$_POST['id_pengguna'];
+            
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                echo "<script>alert('Format email tidak valid!'); history.back();</script>";
+                exit;
+            }
+            
+            if (!is_numeric($nim) || !is_numeric($hp)) {
+                echo "<script>alert('NIM dan No HP harus berupa angka!'); history.back();</script>";
+                exit;
+            }
+            
+            // Cek email / nim terdaftar selain user ini
+            $cek = mysqli_prepare($koneksi, "SELECT id_pengguna FROM pengguna WHERE (email = ? OR nim_nip = ?) AND id_pengguna != ?");
+            mysqli_stmt_bind_param($cek, "ssi", $email, $nim, $id);
+            mysqli_stmt_execute($cek);
+            mysqli_stmt_store_result($cek);
+            if (mysqli_stmt_num_rows($cek) > 0) {
+                echo "<script>alert('Email atau NIM/NIP sudah digunakan oleh pengguna lain!'); history.back();</script>";
+                exit;
+            }
+            
+            $update = mysqli_prepare($koneksi, "UPDATE pengguna SET nama_lengkap=?, nim_nip=?, jenis_pengguna=?, fakultas_unit=?, prodi_bagian=?, email=?, no_hp=?, alamat=? WHERE id_pengguna=?");
+            mysqli_stmt_bind_param($update, "ssssssssi", $nama, $nim, $jenis, $fakultas, $prodi, $email, $hp, $alamat, $id);
+            if (mysqli_stmt_execute($update)) {
+                header("Location: ../pengguna.php?success=edit");
+                exit();
+            } else {
+                echo "<script>alert('Gagal mengubah data pengguna.'); history.back();</script>";
+                exit;
+            }
+            break;
+            
+        case "reservasi":
+            $id = isset($_POST['id_reservasi']) ? (int)$_POST['id_reservasi'] : (isset($_GET['id']) ? (int)$_GET['id'] : 0);
             $id_ruangan = (int)$_POST['id_ruangan'];
+            $id_pengguna_input = (int)$_POST['id_pengguna'];
             $tanggal = $_POST['tanggal_reservasi'];
             $jamMulai = $_POST['jam_mulai'];
             $jamSelesai = $_POST['jam_selesai'];
             $keperluan = trim($_POST['keperluan']);
-            $peserta = (int)$_POST['jumlah_peserta'];
             $keterangan = trim($_POST['keterangan']);
+            $peserta = (int)$_POST['jumlah_peserta'];
             $status = $_POST['status_reservasi'];
             $catatan = trim($_POST['catatan_admin']);
-
-            if (empty($kode) || empty($id_pengguna_input) || empty($id_ruangan) || empty($tanggal) || empty($jamMulai) || empty($jamSelesai) || empty($keperluan) || empty($peserta) || empty($status)) {
-                $error_msg = "Semua data wajib diisi!";
-            } elseif ($jamMulai >= $jamSelesai) {
-                $error_msg = "Jam mulai harus lebih awal dari jam selesai!";
-            } else {
-                // Cek kapasitas ruangan
-                $ruangan = mysqli_prepare($koneksi, "SELECT kapasitas FROM ruangan WHERE id_ruangan=?");
-                mysqli_stmt_bind_param($ruangan, "i", $id_ruangan);
-                mysqli_stmt_execute($ruangan);
-                $hasilRuangan = mysqli_stmt_get_result($ruangan);
-                $r = mysqli_fetch_assoc($hasilRuangan);
-                
-                if ($peserta > $r['kapasitas']) {
-                    $error_msg = "Jumlah peserta melebihi kapasitas ruangan (" . $r['kapasitas'] . " orang)!";
-                } else {
-                    // Cek bentrok jadwal (abaikan reservasi ini sendiri)
-                    $cek = mysqli_prepare($koneksi, "
-                        SELECT id_reservasi
-                        FROM reservasi_ruangan
-                        WHERE id_ruangan=?
-                          AND tanggal_reservasi=?
-                          AND id_reservasi != ?
-                          AND (jam_mulai < ? AND jam_selesai > ?)
-                    ");
-                    mysqli_stmt_bind_param($cek, "isiss", $id_ruangan, $tanggal, $id, $jamSelesai, $jamMulai);
-                    mysqli_stmt_execute($cek);
-                    mysqli_stmt_store_result($cek);
-                    
-                    if (mysqli_stmt_num_rows($cek) > 0) {
-                        $error_msg = "Ruangan sudah dipakai pada jam tersebut!";
-                    } else {
-                        // Ambil data detail pengguna
-                        $stmtUser = mysqli_prepare($koneksi, "SELECT nama_lengkap, email, no_hp FROM pengguna WHERE id_pengguna = ?");
-                        mysqli_stmt_bind_param($stmtUser, "i", $id_pengguna_input);
-                        mysqli_stmt_execute($stmtUser);
-                        $resUser = mysqli_stmt_get_result($stmtUser);
-                        $user = mysqli_fetch_assoc($resUser);
-
-                        if (!$user) {
-                            $error_msg = "Pengguna tidak ditemukan.";
-                        } else {
-                            $namaPemesan = $user['nama_lengkap'];
-                            $emailPemesan = $user['email'];
-                            $hpPemesan = $user['no_hp'];
-
-                            $update = mysqli_prepare($koneksi,
-                            "UPDATE reservasi_ruangan
-                            SET kode_reservasi=?,
-                                id_ruangan=?,
-                                id_pengguna=?,
-                                nama_pemesan=?,
-                                email_pemesan=?,
-                                no_hp=?,
-                                tanggal_reservasi=?,
-                                jam_mulai=?,
-                                jam_selesai=?,
-                                keperluan=?,
-                                keterangan=?,
-                                jumlah_peserta=?,
-                                status_reservasi=?,
-                                catatan_admin=?
-                            WHERE id_reservasi=?");
-
-                            mysqli_stmt_bind_param($update, "siissssssssissi",
-                                $kode, $id_ruangan, $id_pengguna_input, $namaPemesan, $emailPemesan, $hpPemesan,
-                                $tanggal, $jamMulai, $jamSelesai, $keperluan, $keterangan, $peserta, $status, $catatan, $id
-                            );
-
-                            if(mysqli_stmt_execute($update)){
-                                header("Location: ../reservasi.php?success=edit");
-                                exit();
-                            }else{
-                                $error_msg = "Gagal mengubah data reservasi.";
-                            }
-                        }
-                    }
-                }
+            
+            if (empty($id_ruangan) || empty($id_pengguna_input) || empty($tanggal) || empty($jamMulai) || empty($jamSelesai) || empty($keperluan) || empty($peserta) || empty($status)) {
+                echo "<script>alert('Semua data wajib diisi!'); history.back();</script>";
+                exit;
             }
-        }
-        break;
-
-        // ==========================
-        // EDIT RESERVASI
-        // ==========================
-
-        case "reservasi":
-
-            $sql = "UPDATE reservasi_ruangan SET
-
-                        kode_reservasi=?,
-                        id_ruangan=?,
-                        id_pengguna=?,
-                        nama_pemesan=?,
-                        email_pemesan=?,
-                        no_hp=?,
-                        tanggal_reservasi=?,
-                        jam_mulai=?,
-                        jam_selesai=?,
-                        keperluan=?,
-                        keterangan=?,
-                        jumlah_peserta=?,
-                        status_reservasi=?,
-                        catatan_admin=?
-
-                    WHERE id_reservasi=?";
-
-            $stmt = mysqli_prepare($koneksi,$sql);
-
-            mysqli_stmt_bind_param(
-
-                $stmt,
-
-                "siissssssssissi",
-
-                $_POST['kode_reservasi'],
-                $_POST['id_ruangan'],
-                $_POST['id_pengguna'],
-                $_POST['nama_pemesan'],
-                $_POST['email_pemesan'],
-                $_POST['no_hp'],
-                $_POST['tanggal_reservasi'],
-                $_POST['jam_mulai'],
-                $_POST['jam_selesai'],
-                $_POST['keperluan'],
-                $_POST['keterangan'],
-                $_POST['jumlah_peserta'],
-                $_POST['status_reservasi'],
-                $_POST['catatan_admin'],
-                $_POST['id_reservasi']
-
-            );
-
-            $redirect="../reservasi.php";
-
-        break;
-
-         // ==========================
-        // EDIT PENGGUNA
-        // ==========================
-
-        case "pengguna":
-
-            $sql = "UPDATE pengguna SET
-
-                        nama_lengkap=?,
-                        nim_nip=?,
-                        jenis_pengguna=?,
-                        fakultas_unit=?,
-                        prodi_bagian=?,
-                        email=?,
-                        no_hp=?,
-                        alamat=?
-
-                    WHERE id_pengguna=?";
-
-            $stmt = mysqli_prepare($koneksi,$sql);
-
-          mysqli_stmt_bind_param(
-
-            $stmt,
-
-            "ssssssssi",
-
-            $_POST['nama_lengkap'],
-            $_POST['nim_nip'],
-            $_POST['jenis_pengguna'],
-            $_POST['fakultas_unit'],
-            $_POST['prodi_bagian'],
-            $_POST['email'],
-            $_POST['no_hp'],
-            $_POST['alamat'],
-            $_POST['id_pengguna']
-
-         );
-
-            $redirect="../pengguna.php";
-
-        break;
-
-        default:
-
-            die("Halaman tidak dikenali.");
-
+            
+            if ($jamMulai >= $jamSelesai) {
+                echo "<script>alert('Jam mulai harus lebih awal dari jam selesai!'); history.back();</script>";
+                exit;
+            }
+            
+            // Cek kapasitas
+            $qRuangan = mysqli_query($koneksi, "SELECT kapasitas FROM ruangan WHERE id_ruangan = $id_ruangan");
+            $rInfo = mysqli_fetch_assoc($qRuangan);
+            if ($peserta > $rInfo['kapasitas']) {
+                echo "<script>alert('Jumlah peserta melebihi kapasitas ruangan (" . $rInfo['kapasitas'] . " orang)!'); history.back();</script>";
+                exit;
+            }
+            
+            // Cek bentrok (abaikan reservasi ini sendiri)
+            $cekBentrok = mysqli_prepare($koneksi, "SELECT id_reservasi FROM reservasi_ruangan WHERE id_ruangan = ? AND tanggal_reservasi = ? AND status_reservasi = 'disetujui' AND id_reservasi != ? AND ((jam_mulai < ? AND jam_selesai > ?) OR (jam_mulai >= ? AND jam_mulai < ?))");
+            mysqli_stmt_bind_param($cekBentrok, "issssss", $id_ruangan, $tanggal, $id, $jamSelesai, $jamMulai, $jamMulai, $jamSelesai);
+            mysqli_stmt_execute($cekBentrok);
+            mysqli_stmt_store_result($cekBentrok);
+            if (mysqli_stmt_num_rows($cekBentrok) > 0) {
+                echo "<script>alert('Jadwal bentrok dengan reservasi lain yang sudah disetujui!'); history.back();</script>";
+                exit;
+            }
+            
+            // Ambil info dari pengguna untuk sinkronisasi
+            $qPengguna = mysqli_query($koneksi, "SELECT nama_lengkap, email, no_hp FROM pengguna WHERE id_pengguna = $id_pengguna_input");
+            $pInfo = mysqli_fetch_assoc($qPengguna);
+            $nama_pemesan = $pInfo['nama_lengkap'];
+            $email_pemesan = $pInfo['email'];
+            $no_hp = $pInfo['no_hp'];
+            
+            $update = mysqli_prepare($koneksi, "UPDATE reservasi_ruangan SET id_ruangan=?, id_pengguna=?, nama_pemesan=?, email_pemesan=?, no_hp=?, tanggal_reservasi=?, jam_mulai=?, jam_selesai=?, keperluan=?, keterangan=?, jumlah_peserta=?, status_reservasi=?, catatan_admin=? WHERE id_reservasi=?");
+            mysqli_stmt_bind_param($update, "iissssssssissi", $id_ruangan, $id_pengguna_input, $nama_pemesan, $email_pemesan, $no_hp, $tanggal, $jamMulai, $jamSelesai, $keperluan, $keterangan, $peserta, $status, $catatan, $id);
+            if (mysqli_stmt_execute($update)) {
+                header("Location: ../reservasi.php?success=edit");
+                exit();
+            } else {
+                echo "<script>alert('Gagal mengubah data reservasi.'); history.back();</script>";
+                exit;
+            }
+            break;
     }
+}
 
-    if(mysqli_stmt_execute($stmt)){
+// Handle GET request (to display forms)
+if (!isset($_GET['halaman']) || !isset($_GET['id'])) {
+    die("Parameter tidak lengkap.");
+}
 
-        header("Location: $redirect");
-        exit();
+$halaman = $_GET['halaman'];
+$id = (int)$_GET['id'];
 
-    }else{
-
-        echo mysqli_error($koneksi);
-
-    }
-
+switch ($halaman) {
+    case "ruangan":
+        $stmt = mysqli_prepare($koneksi, "SELECT * FROM ruangan WHERE id_ruangan = ?");
+        mysqli_stmt_bind_param($stmt, "i", $id);
+        mysqli_stmt_execute($stmt);
+        $data = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
+        if (!$data) die("Data ruangan tidak ditemukan.");
+        break;
+        
+    case "pengguna":
+        $stmt = mysqli_prepare($koneksi, "SELECT * FROM pengguna WHERE id_pengguna = ?");
+        mysqli_stmt_bind_param($stmt, "i", $id);
+        mysqli_stmt_execute($stmt);
+        $data = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
+        if (!$data) die("Data pengguna tidak ditemukan.");
+        break;
+        
+    case "reservasi":
+        $stmt = mysqli_prepare($koneksi, "SELECT * FROM reservasi_ruangan WHERE id_reservasi = ?");
+        mysqli_stmt_bind_param($stmt, "i", $id);
+        mysqli_stmt_execute($stmt);
+        $data = mysqli_fetch_assoc(mysqli_stmt_get_result($stmt));
+        if (!$data) die("Data reservasi tidak ditemukan.");
+        break;
 }
 ?>
 <!DOCTYPE html>

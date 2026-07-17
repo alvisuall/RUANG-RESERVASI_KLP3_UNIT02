@@ -6,7 +6,6 @@ if (!isset($_SESSION['id_user'])) {
 }
 require_once "koneksi.php";
 
-<<<<<<< HEAD
 $role = $_SESSION['role'];
 if ($role == 'pengguna') {
     header("Location: home.php");
@@ -19,12 +18,6 @@ $queryJadwal = mysqli_query($koneksi, "
 SELECT
     reservasi_ruangan.*,
     ruangan.nama_ruangan
-=======
-// Query untuk card jadwal
-$queryJadwalCard = mysqli_query($koneksi,"
-SELECT reservasi_ruangan.*,
-       ruangan.nama_ruangan
->>>>>>> 71f784bdf2045fdd685b663878ac4a9ecf8a488a
 FROM reservasi_ruangan
 JOIN ruangan
 ON reservasi_ruangan.id_ruangan = ruangan.id_ruangan
@@ -158,7 +151,6 @@ function formatTanggalIndo($tanggal) {
         </div>
 
         <div class="row g-4 mb-4">
-<<<<<<< HEAD
             <?php
             if (empty($schedulesByDate)) {
                 echo '<div class="col-12"><div class="alert alert-info">Belum ada jadwal pemakaian ruangan yang disetujui.</div></div>';
@@ -196,89 +188,10 @@ function formatTanggalIndo($tanggal) {
                 }
             }
             ?>
-        </div>
-=======
-
-            <?php
-            $tanggalSebelumnya = "";
-            while($jadwal = mysqli_fetch_assoc($queryJadwalCard)){
-                if($tanggalSebelumnya != $jadwal['tanggal_reservasi']){
-                    if($tanggalSebelumnya != ""){
-                        echo "</div></div>";
-                    }
-
-            ?>
-
-            <div class="col-md-6 col-xl-4">
-                <div class="schedule-box">
-                    <div class="schedule-date">
-                        <i class="bi bi-calendar-event text-primary me-1"></i>
-                        <?= date("d F Y", strtotime($jadwal['tanggal_reservasi'])); ?>
-                    </div>
-                <?php
-                        $tanggalSebelumnya = $jadwal['tanggal_reservasi'];
-                    }
-
-                ?>
-                        <div class="schedule-item">
-                            <div class="fw-bold">
-                                <?= $jadwal['nama_ruangan']; ?>
-                            </div>
-
-                            <div class="text-muted small">
-                                <?= substr($jadwal['jam_mulai'],0,5); ?>
-                                -
-                                <?= substr($jadwal['jam_selesai'],0,5); ?>
-                            </div>
-
-                            <div>
-                                <?= $jadwal['keperluan']; ?>
-                            </div>
-
-                            <?php
-
-                            $status = strtolower($jadwal['status_reservasi']);
-
-                            if($status=="disetujui"){
-
-                                echo '<span class="badge-status badge-disetujui mt-2 d-inline-block">Disetujui</span>';
-
-                            }elseif($status=="menunggu"){
-
-                                echo '<span class="badge-status badge-menunggu mt-2 d-inline-block">Menunggu</span>';
-
-                            }elseif($status=="ditolak"){
-
-                                echo '<span class="badge-status badge-ditolak mt-2 d-inline-block">Ditolak</span>';
-
-                            }elseif($status=="selesai"){
-
-                                echo '<span class="badge-status badge-selesai mt-2 d-inline-block">Selesai</span>';
-
-                            }else{
-
-                                echo '<span class="badge-status mt-2 d-inline-block">'.$jadwal['status_reservasi'].'</span>';
-
-                            }
-
-                            ?>
-
-                        </div>
-
-                <?php } ?>
-
-                <?php
-                if($tanggalSebelumnya != ""){
-                    echo "</div></div>";
-                }
-                ?>
-</div>
->>>>>>> 71f784bdf2045fdd685b663878ac4a9ecf8a488a
 
         <div class="content-card">
             <h5 class="section-title">Tabel Jadwal Pemakaian</h5>
             <div class="table-responsive">
-<<<<<<< HEAD
                 <table id="tabelJadwal" class="table table-hover align-middle text-center">
                     <thead>
                          <tr>
@@ -321,66 +234,6 @@ function formatTanggalIndo($tanggal) {
                         }
                         ?>
                     </tbody>
-=======
-                <table id="tabelJadwal" class="table table-hover">
-
-                <thead>
-                     <tr>
-                         <th>Tanggal</th>
-                         <th>Jam</th>
-                         <th>Ruangan</th>
-                         <th>Pemesan</th>
-                         <th>Keperluan</th>
-                         <th>Status</th>
-                     </tr>
-                 </thead>
-
-                <tbody>
-
-                    <?php while($data = mysqli_fetch_assoc($queryJadwalTabel)){ ?>
-
-                    <tr>
-
-                        <td><?= date("Y-m-d", strtotime($data['tanggal_reservasi'])); ?></td>
-
-                        <td>
-                            <?= substr($data['jam_mulai'],0,5); ?>
-                            -
-                            <?= substr($data['jam_selesai'],0,5); ?>
-                        </td>
-
-                        <td><?= $data['nama_ruangan']; ?></td>
-
-                        <td><?= $data['nama_pemesan']; ?></td>
-
-                        <td><?= $data['keperluan']; ?></td>
-
-                        <td>
-                            <?php
-
-                            $status = strtolower($data['status_reservasi']);
-
-                            if($status == "disetujui"){
-                                echo '<span class="badge bg-success">Disetujui</span>';
-                            }elseif($status == "menunggu"){
-                                echo '<span class="badge bg-warning text-dark">Menunggu</span>';
-                            }elseif($status == "ditolak"){
-                                echo '<span class="badge bg-danger">Ditolak</span>';
-                            }elseif($status == "selesai"){
-                                echo '<span class="badge bg-primary">Selesai</span>';
-                            }else{
-                                echo '<span class="badge bg-secondary">'.$data['status_reservasi'].'</span>';
-                            }
-
-                            ?>
-                        </td>
-
-                    </tr>
-
-                    <?php } ?>
-
-                </tbody>
->>>>>>> 71f784bdf2045fdd685b663878ac4a9ecf8a488a
                 </table>
             </div>
         </div>
