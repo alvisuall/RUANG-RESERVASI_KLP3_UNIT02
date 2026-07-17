@@ -6,7 +6,21 @@ if (!isset($_SESSION['id_user'])) {
 }
 require_once "koneksi.php";
 
+<<<<<<< HEAD
 $role = $_SESSION['role'];
+=======
+$queryReservasiTerbaru = mysqli_query($koneksi, "
+SELECT reservasi_ruangan.*,
+       ruangan.nama_ruangan
+FROM reservasi_ruangan
+JOIN ruangan
+ON reservasi_ruangan.id_ruangan = ruangan.id_ruangan
+ORDER BY reservasi_ruangan.created_at DESC
+LIMIT 5
+");
+
+$data = mysqli_query($koneksi, "SELECT * FROM pengguna");
+>>>>>>> 71f784bdf2045fdd685b663878ac4a9ecf8a488a
 
 if ($role == 'pengguna') {
     $id_pengguna = getCurrentPenggunaId($koneksi);
@@ -247,6 +261,7 @@ function formatTanggalIndo($tanggal) {
             </div>
 
             <div class="table-responsive">
+<<<<<<< HEAD
                 <table id="tabelReservasi" class="table table-bordered table-hover align-middle text-center shadow rounded overflow-hidden">
                     <thead class="table-primary">
                         <tr>
@@ -304,6 +319,80 @@ function formatTanggalIndo($tanggal) {
                     </tbody>
                 </table>
             </div>
+=======
+    <table id="tabelReservasi" class="table table-bordered table-hover align-middle text-center shadow rounded overflow-hidden">
+
+        <thead class="table-primary">
+            <tr>
+                <th>Kode</th>
+                <th>Pemesan</th>
+                <th>Ruangan</th>
+                <th>Tanggal</th>
+                <th>Jam</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            
+            <?php while($data = mysqli_fetch_assoc($queryReservasiTerbaru)){ ?>
+
+            <tr>
+
+                <td><?= $data['kode_reservasi']; ?></td>
+
+                <td><?= $data['nama_pemesan']; ?></td>
+
+                <td><?= $data['nama_ruangan']; ?></td>
+
+                <td><?= date("d F Y", strtotime($data['tanggal_reservasi'])); ?></td>
+
+                <td><?= substr($data['jam_mulai'],0,5); ?> - <?= substr($data['jam_selesai'],0,5); ?></td>
+
+                <td>
+
+                    <?php
+
+                        $status = strtolower(trim($data['status_reservasi']));
+
+                        switch($status){
+
+                            case "disetujui":
+                                echo '<span class="badge bg-success rounded-pill">Disetujui</span>';
+                                break;
+
+                            case "menunggu":
+                                echo '<span class="badge bg-warning text-dark rounded-pill">Menunggu</span>';
+                                break;
+
+                            case "ditolak":
+                                echo '<span class="badge bg-danger rounded-pill">Ditolak</span>';
+                                break;
+
+                            case "selesai":
+                                echo '<span class="badge bg-primary rounded-pill">Selesai</span>';
+                                break;
+
+                            case "dibatalkan":
+                                echo '<span class="badge bg-secondary rounded-pill">Dibatalkan</span>';
+                                break;
+
+                            default:
+                                echo '<span class="badge bg-dark rounded-pill">'.$data['status_reservasi'].'</span>';
+                        }
+
+                        ?>
+                </td>
+
+            </tr>
+
+            <?php } ?>
+
+        </tbody>
+
+    </table>
+</div>
+>>>>>>> 71f784bdf2045fdd685b663878ac4a9ecf8a488a
         </div>
     </main>
 </div>
